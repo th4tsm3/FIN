@@ -1,20 +1,23 @@
-
+//
+// # Special effects: text slow-print
+//
 var slowPrinter = {
     timer : -1,
     count : 0,
     activetag : "",
+    // flag to manage html tags
     intag : false,
     fifo  : [],
+    // adds text to be printed to the buffer
     add : function(x){
         slowPrinter.count+=x.length;
         for (i in x) {
-        //console.log(x[i]);
         slowPrinter.fifo.push(x[i]);
         }
     },
+    // gets characters to be printed out of the buffer
     get : function(){
         var out = slowPrinter.fifo.shift();
-        //var out = "";
         debug_out("SLOW-PRINT: "+slowPrinter.count.toString()+" "+out+" ... "+slowPrinter.fifo[0],4);
         if (out=='<') {
             if ( slowPrinter.fifo[0] =='/') {
@@ -28,9 +31,7 @@ var slowPrinter = {
             else {
                 slowPrinter.intag = true;
             }
-
             while( slowPrinter.fifo[0]!='>' ) {
-                //slowPrinter.activetag+=slowPrinter.fifo.shift();
                 out+=slowPrinter.fifo.shift();
             }
             if (slowPrinter.fifo[0]=='>') {
@@ -46,15 +47,8 @@ var slowPrinter = {
                 out+=slowPrinter.fifo.shift();
             }
         }
-        var writeto = document.getElementById( placeholder.substr(1) );
-        // puts character in DOM element
-//        writeto.innerHTML += out;
-
-//        $(previously).html().substr( 0, $(previously).html().lastIndexOf('</') )
+        var writeto = document.getElementById( FIN_layout.placeholder.substr(1) );
         slowPrinter.activetag = writeto.innerHTML.substr ( writeto.innerHTML.lastIndexOf('</') );
-//        if (slowPrinter.intag) {
-//            writeto.innerHTML = writeto.innerHTML.substr( 0, writeto.innerHTML.lastIndexOf('</') ) + out + slowPrinter.activetag;
-
         if (slowPrinter.intag && writeto.innerHTML.indexOf('</')>=0) {
             writeto.innerHTML = writeto.innerHTML.substr( 0, writeto.innerHTML.lastIndexOf('</') ) + out + slowPrinter.activetag;
         }
@@ -62,7 +56,7 @@ var slowPrinter = {
             writeto.innerHTML += out;
         }
         slowPrinter.activetag = "";
-
+        // manages scrolling effect
         if ( ! $(upto).visible(true, true) ) {
             $('html,body').scrollTop( $(upto).offset().top );
         }
@@ -70,33 +64,32 @@ var slowPrinter = {
             slowPrinter.stop();
         }
     },
+    // delay time between two characters
     delay : function(ms) {
                 slowPrinter.get();
                 slowPrinter.count-=1;
                 var l=slowPrinter.fifo.length;
                 slowPrinter.timer = setTimeout( function(){
-            // recursion
+            // recursion: there is still text to be printed
             if (slowPrinter.count>0 && l>0) {
                 slowPrinter.delay(ms);
             }
-            // at the end
+            // at the end, it stops
             else {
                 slowPrinter.stop();
             }
         },ms);
     },
+    // operations to be executed at the end:
     stop : function(){
         clearTimeout(slowPrinter.timer);
-        // moves output to "previously"
-        //$(previously).append( '<p>' + add_custom_html_tags( $(placeholder).html() + slowPrinter.fifo.join('') , DICTIONARY ) + '</p>' );
-        $(previously).append( '<br>'+add_custom_html_tags( $(placeholder).html() + slowPrinter.fifo.join('') , DICTIONARY ) );
-        $(placeholder).html("");
+        // moves printed text to to "previously" area
+        $(FIN_layout.previously).append( add_custom_html_tags( $(FIN_layout.placeholder).html() + slowPrinter.fifo.join('') , FIN_framework.DICTIONARY )+'<br>' );
+        $(FIN_layout.placeholder).html("");
         slowPrinter.fifo=[];
         slowPrinter.count=0;
         // animated scroll-up effect
-        CRITTER.chores.push( "$('html, body').animate( { scrollTop: $(upto).offset().top }, "+UI_FIGURES[0]+")" );
-        //CRITTER.runner(true);
+        CRITTER.chores.push( "$('html, body').animate( { scrollTop: $(upto).offset().top }, "+FIN_framework.UI_FIGURES[0]+")" );
         FIN_framework.printing= false;
     }
-}
-
+};

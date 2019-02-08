@@ -7,7 +7,7 @@ function verb_substitution(what) {
     debug_out("NEW VERB GROUP DEFINITION: "+what, 2);
     var wordlist = what.split(',');
     if (wordlist.length < 2) {
-        trigger_error(ERROR_RAW);
+        trigger_error(FIN_localization.ERROR_RAW);
         return false;
     }
     else {
@@ -24,5 +24,4 @@ function verb_substitution(what) {
         console.log('v_'+whatgroup);
         return true;
     }
-}
-
+};

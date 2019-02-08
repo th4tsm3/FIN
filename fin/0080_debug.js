@@ -5,7 +5,7 @@
 function prova() {
    console.log("PROVA BUTTON"); 
 //TBD    document.onclick.stopPropagation();
-}
+};
 
 
 //// pulsante TRY
@@ -23,7 +23,7 @@ function try_button() {
     else {
         trigger_error(ERROR_GEN);
     }
-}
+};
 
 //// pulsante "debug" TBD
 function debug_button() {
@@ -31,13 +31,13 @@ function debug_button() {
     debug_out("DEBUG-BUTTON PRESSED:",2);
 //    console.log($("body").css("font-size"));
 //    console.log("SLOWPRINTING: "+UI_SLOWPRINTING);
-    debug_out("FOCUS: << "+FOCUS.lnkTo[FOCUS.lnkTo.length-1]+" >> "+FOCUS.lnkTo, 1);
+    debug_out("FOCUS: << "+current_focus()+" >> "+FOCUS.lnkTo, 1);
     debug_out("IN-SCOPE: "+inscope_objs_list(FOCUS), 2);
-    debug_out("DICTIONARY:"+DICTIONARY, 3);
-    debug_out("HISTORY INPUT: "+HISTORY.input,4);
-    debug_out("HISTORY DONE:"+HISTORY.done,4);
+    debug_out("DICTIONARY:"+FIN_framework.DICTIONARY, 3);
+    debug_out("FIN_framework.HISTORY INPUT: "+FIN_framework.HISTORY.input,4);
+    debug_out("FIN_framework.HISTORY DONE:"+FIN_framework.HISTORY.done,4);
     debug_out("CRITTER:"+CRITTER.chores,4);
-}
+};
 
 /* ************************************ 
 //// debug snippet frpom the web
@@ -67,11 +67,12 @@ function callerName() {
     }
 
     return hisCallerName;
-}
+};
 
 function trim(inString) {
     return inString.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-}
+};
+
 function getStringValue(inString) {
     if (inString == null || inString == "undefined" || inString == "null" || inString == "[object]" || inString == "[object NodeList]") {
         return "";
@@ -83,7 +84,7 @@ function getStringValue(inString) {
     } catch (e) {
         return "";
     }
-}
+};
 
 function fLeft(inText, delim) {
     inText = getStringValue(inText);
@@ -94,7 +95,7 @@ function fLeft(inText, delim) {
         outText = inText.substring(0, theSpot);
     }
     return outText;
-}
+};
 
 function fLeftBack(inText, delim) {
     inText = getStringValue(inText);
@@ -103,7 +104,7 @@ function fLeftBack(inText, delim) {
     var theSpot = inText.lastIndexOf(delim);
     if (theSpot > -1) outText = inText.substring(0, theSpot);
     return outText;
-}
+};
 
 function fRight(inText, delim) {
     inText = getStringValue(inText);
@@ -114,7 +115,7 @@ function fRight(inText, delim) {
         outText = inText.substring(theSpot + delim.length, inText.length);
     }
     return outText;
-}
+};
 
 function fRightBack(inText, delim) {
     inText = getStringValue(inText);
@@ -123,15 +124,15 @@ function fRightBack(inText, delim) {
     var theSpot = inText.lastIndexOf(delim);
     if (theSpot > -1) outText = inText.substring(theSpot + delim.length, inText.length);
     return outText;
-}
+};
 
 function fBetween(inText, delimLeft, delimRight) {
     return fLeft(fRight(inText, delimLeft), delimRight);
-}
+};
 
 function isNoE(obj) {
     return isNullOrEmpty(obj);
-}
+};
 
 function isNullOrEmpty(obj) {
 
@@ -147,7 +148,7 @@ function isNullOrEmpty(obj) {
 
     // STRING
     return getStringValue(obj) == "";
-}
+};
 
 /* ************************************************************************  */
 
@@ -162,16 +163,16 @@ function open_secondary_window(){
         
         secondary_window.document.write('<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><title>FIN-LOG</title><style>body { padding:1em; } div { background-color: #eee; line-height: 1.3; font-family: Sans-Serif; padding: 2em; line-height: 1em; }</style></head><body><div if="logger"><h1>'+STORY+'</h1>'+FIN_framework.startingtime+'<br><br>');
         //+'</div></body></html>');  << tags to be closed... TBD
-        for (var i in HISTORY.raw) {
-			// puts current HISTORY content in the window
-			write_in_secondary_window(HISTORY.raw[i]);
+        for (var i in FIN_framework.HISTORY.raw) {
+			// puts current FIN_framework.HISTORY content in the window
+			write_in_secondary_window(FIN_framework.HISTORY.raw[i]);
 		}
     }
     else {
         // the browser has blocked it
-        system_popup(UI_MESSAGES.alertwarning);
+        system_popup(FIN_localization.UI_MESSAGES.alertwarning);
     }
-}
+};
 
 // writes a line of text in the secondary window (SecondaryWindow)
 function write_in_secondary_window(what){
@@ -182,30 +183,30 @@ function write_in_secondary_window(what){
     catch(err){
         trigger_error(ERROR_NOTFOUND);
     }
-}
+};
 
-// prints debug information if DEBUG global variable is set >0 (see DEBUG)
+// prints debug information if DEBUG global variable is set >0 (see DEBUG) to the console
 function debug_out(it,verbosity){
     //to_stream('</br><i style="font-size: 9pt;">'+it+'</i></br>');
     if (DEBUG >= verbosity) {
         console.log(callerName() +" >> "+it.toString());
     }
-    if (DEBUG >5){
+    if (DEBUG >4){
         secondary_window_write(it);
     }
-}
+};
 
 //// funzione che scrive nella finestra di stream di testo TBD
 // ora non usata
 function to_stream(what) {
     ;
     //$(popupwin.document.body).append(what);
-}
+};
 
 //// WATCH per un oggetto
 function ispeziona_oggetto(ogg) {
     debug_out("* obj: "+object_name(ogg).toUpperCase()+"\n - typ:"+ogg.typ+"\n - syn: "+ogg.syn+"\n - az: "+"\n v_0:"+ogg.v_0+"\n v_1:"+ogg.v_1+"\n v_2:"+ogg.v_2+"\n v_3:"+ogg.v_3+"\n "+"\n - punta   -->:\t"+ogg.lnkTo+"\n - puntato <--:\t"+ogg.lnkFr,1);
-}
+};
 
 //// ispeziona tutti gli oggetti definiti
 function ispeziona_allobjects(vettogg) {
@@ -217,7 +218,7 @@ function ispeziona_allobjects(vettogg) {
         //}
         ispeziona_oggetto( vettogg[i]);
     }
-}
+};
 
 // inspection of the in-scope objects
 function ispeziona_scope (oggpart) {
@@ -228,7 +229,7 @@ function ispeziona_scope (oggpart) {
 //        ispeziona_oggetto(eval(objs[i]));
     }
     //ispeziona_allobjects(objs);
-}
+};
 
 // inspection of current verbs synonims
 function ispeziona_verbi() {
@@ -239,13 +240,13 @@ function ispeziona_verbi() {
         }
     }
     
-}
+};
 
 
 
 
 //POSIZIONE PLAYER TBD
 function POS() {
-    debug_out(FOCUS.lnkTo[FOCUS.lnkTo.length-1]+">>"+inscope_objs_list(FOCUS),1);
-}
+    debug_out(current_focus()+">>"+inscope_objs_list(FOCUS),1);
+};
 

@@ -1,0 +1,39 @@
+<!-- Libraries: tags-replacer -->
+<script type="text/javascript">
+// Jquery plugin to replace tag names
+// https://stackoverflow.com/questions/2815683/jquery-javascript-replace-tag-type/9468280#9468280
+(function($) {
+    $.fn.replaceTagName = function(replaceWith) {
+        var tags = [],
+            i    = this.length;
+        while (i--) {
+            var newElement = document.createElement(replaceWith),
+                thisi      = this[i],
+                thisia     = thisi.attributes;
+            for (var a = thisia.length - 1; a >= 0; a--) {
+                var attrib = thisia[a];
+                newElement.setAttribute(attrib.name, attrib.value);
+            };
+            newElement.innerHTML = thisi.innerHTML;
+            $(thisi).after(newElement).remove();
+            tags[i] = newElement;
+        }
+        return $(tags);
+    };
+})(window.jQuery);
+
+// https://stackoverflow.com/questions/8041857/making-a-div-shake-on-page-load
+jQuery.fn.shake = function() {
+    this.each(function(i) {
+        //$(this).css({ "position" : "relative" });
+		var was = $(this).css("bottom");
+        for (var x = 1; x <= 2; x++) {
+            $(this).animate({ left: -10 }, 10).animate({ left: 0 }, 30).animate({ left: 10 }, 10).animate({ left: 0 }, 20);
+//			$(this).animate({ bottom: -10 }, 10).animate({ bottom: 0 }, 30).animate({ bottom: 10 }, 10).animate({ bottom: 0 }, 20);
+        }
+//		$(this).css("bottom",was);
+    });
+    return this;
+}
+
+</script>

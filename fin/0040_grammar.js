@@ -1,7 +1,9 @@
-//// stima quanto sono simili due parole passate (in %)
+//
+// # grammar
+// 
+// ## 2-words-alike?
 function stima_similitudine(a,b) {
-// es: stima_similitudine("bosco","boschetto")
-// applica approssimazioni: tronca al minimo della prima e considera il primo evento di ricerca carattere con la funzione standard javascript indexOf per identificare il carattere uguale
+// ex: stima_similitudine("bosco","boschetto")
     debug_out("stima_similitudine "+a+" vs "+b,3);
     if ( (typeof(a)!="string") || (typeof(b)!="string") )
         return false;
@@ -16,56 +18,59 @@ function stima_similitudine(a,b) {
         vb = switcher;
     }
     var qmax = 100 / va.length;
-    // per ogni carattere della stringa a...
+    // for each character
     for ( var c in va ) {
         if ( va[c] == vb[c] ) {
             sim += qmax;
         }
         else {
-            indb = vb.indexOf( va[c] );              // indice del carattere analogo in b (se c'e`, altrimenti -1)
-            if ( indb > 0 ) {                       // (se fosse 0 sarebbe il caso sopra)
+            indb = vb.indexOf( va[c] );
+            if ( indb > 0 ) {
                 // calculates the proximity value from the relative distance in the two arrays
-                sim += qmax / (Math.abs(c-indb)); // (calcolo)
-            }                                       // altrimenti non aggiungo nulla a sim
+                sim += qmax / (Math.abs(c-indb));
+            }
         }
     }
-//    console.log("stima_similitudine "+a+" vs "+b,sim); // TBD per verifica funzionamento correttore
     return sim;
-} // fine: stima_similitudine
+};
 
-//// tenta di correggere la parola passata come argomento e restituisce la correzione probabile in base a un dizionario
+//
+// ## word-changer
+//
+// tries to guess the most similar word
 function correttore_parole (paroladacontrollare,dizionario,soglia) {
-// es: correttore_parole ("boxco",DICTIONARY);
-// TBD: utilizzando per ora la funzione stima_similitudine e appoggiandosi al vettore globale "DICTIONARY"
+// ex: correttore_parole ("boxco",FIN_framework.DICTIONARY) >> bosco
     // if the word is very short it is returned as it is
     if (paroladacontrollare.length < 4){
         return paroladacontrollare;
     }
     debug_out("correttore_parole "+paroladacontrollare+"/"+soglia,3);
     if (typeof(paroladacontrollare)!="string"){
-        trigger_error(ERROR_OBJ);
+        trigger_error(FIN_localization.ERROR_OBJ);
     }
     paroladacontrollare= paroladacontrollare.trim();
     var correzioneprobabile;
     var similitudine = 0;
     var ultimocalcolo;
     var tmpvect = [];
-    // per ogni parola presente nel dizionario...
+    // for each word in the dictionary
     dizionario.map(
         function (og) {
             ultimocalcolo = stima_similitudine ( paroladacontrollare , og );
-            // considero le similitudini calcolate, soltanto se > di soglia %
+            // considered only if above the % threshold
             if ( ultimocalcolo > similitudine && ultimocalcolo >= soglia ) {
                 correzioneprobabile = og;
                 similitudine = ultimocalcolo;
             }
         } );
-    return correzioneprobabile; //la parola corretta
-}
+    // returns the new word
+    return correzioneprobabile;
+};
 
-
-
-//// sostituzione sottostringa in una stringa lunga. Mozilla: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+// 
+// ## substring substitution
+//
+// Mozilla: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 function replaceString(trova, sostituisci, qui) { 
     return qui.split(trova).join(sostituisci);
-}
+};

@@ -1,0 +1,113 @@
+/*
+   FIN --  Framework for Interactive Novels
+   [ html+css+javascript framework ]
+   author:  Alessandro Peretti
+
+   part: fonts.css
+
+type and usage CSS instruction:
+
+ SERIF
+font-family: 'Bellefair', serif;
+font-family: 'Cormorant', serif;
+font-family: 'Prata', serif;
+
+ SANS-SERIF
+font-family: 'Cambay', sans-serif;
+font-family: 'GlacialIndifference', sans-serif;
+font-family: 'Ubuntu', sans-serif;
+font-family: 'Raleway', sans-serif;
+
+ MONOSPACE
+font-family: 'UbuntuMono', monospace;
+font-family: 'SourceCodePro', monospace;
+
+ SPECIAL
+font-family: 'SpecialElite', cursive;
+font-family: 'NTypewriter', serif;
+font-family: 'GNUTypewriter', serif;
+font-family: 'Orbitron', sans-serif;
+
+ DEFINITIONS:
+*/
+@font-face {
+	font-family: 'Bellefair';
+	src: url('styles/fonts/Bellefair-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Cambay';
+	src: url('styles/fonts/Cambay-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Cormorant';
+	src: url('styles/fonts/CormorantGaramond-Medium.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Prata';
+	src: url('styles/fonts/Prata-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'SpecialElite';
+	src: url('styles/fonts/SpecialElite-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Ubuntu';
+	src: url('styles/fonts/Ubuntu-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'UbuntuMono';
+	src: url('styles/fonts/UbuntuMono-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'GlacialIndifference';
+	src: url('styles/fonts/GlacialIndifference-Regular.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'NTypewriter';
+	src: url('styles/fonts/NaziTypewriterRegular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'SourceCodePro';
+	src: url('styles/fonts/SourceCodePro-Medium.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Orbitron';
+	src: url('styles/fonts/Orbitron-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'Raleway';
+	src: url('styles/fonts/Raleway-Regular.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'GNUTypewriter';
+	src: url('styles/fonts/GNUTypewriter.otf') format('opentype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/*** END OF FONTS.CSS ***/
+
