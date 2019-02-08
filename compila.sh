@@ -33,7 +33,7 @@ function directorycheck() {
     if [[ ! -d $1 ]]
     then
         echo "ERROR: $1 directory is missing!"
-        exit
+        exit 1
     fi
 }
 
@@ -41,7 +41,7 @@ function filecheck() {
     if [[ ! -f $1 ]]
     then
         echo "ERROR: $1 file is missing!"
-        exit
+        exit 1
     fi
 }
 
@@ -52,6 +52,8 @@ for ck in ${directories[*]}
 do
     directorycheck $ck
 done
+
+filecheck $1
 
 #for ck in ${scripts[*]}
 #do
@@ -102,7 +104,10 @@ filecheck $SRCDIR/$FINTITLE
 
 cat $SRCDIR/$FINTITLE > $OUTDIR/$OUTDOC
 echo -e "- serial: $SERIAL" >> $OUTDIR/$OUTDOC
+# extracts comments from source files
 cat $SRCDIR/$FIN | grep '^ *//' | tr -d '/' | sed 's:  *: :g' | sed 's:^ ::' | sed -z 's:\n:\n\n:g' >> $OUTDIR/$OUTDOC
+#echo  >> $OUTDIR/$OUTDOC
+cat $TRANSLATOR/traduttore_nodejs.js | grep '^ *//' | tr -d '/' | sed 's:  *: :g' | sed 's:^ ::' | sed -z 's:\n:\n\n:g' >> $OUTDIR/$OUTDOC
 echo -e "Produced: '$OUTDIR/$OUTDOC'"
 
 # inutile se si produce prima con traduzione
@@ -113,7 +118,8 @@ cat $SRCDIR/*.src > $OUTDIR/$1_$SERIAL.html
 echo -e "Produced: '$OUTDIR/$1_$SERIAL.html'"
 cp -f $OUTDIR/$1_$SERIAL.html $OUTDIR/$1.html
 echo -e "Produced: '$OUTDIR/$1.html'"
-cat $OUTDIR/$1_$SERIAL.html | sed 's:^ ::' | grep -v '^//' | tr -d '\n' | tr -d '\r' > $OUTDIR/$1_minified.html
+### TBD il minificato non funziona
+###cat $OUTDIR/$1_$SERIAL.html | sed 's:^ ::' | grep -v '^//' | tr -d '\n' | tr -d '\r' > $OUTDIR/$1_minified.html
 echo -e "Produced: '$OUTDIR/$1_minified.html'"
 
 
