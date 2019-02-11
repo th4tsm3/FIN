@@ -3,7 +3,7 @@ function clean_up_array(array) {
         return el.toLowerCase().trim() } );
 };
 
-function checkOR(names) {
+function check_or(names) {
     // names is translated to an array
     if ( names.indexOf(',')>0 ) {
         names = names.split(',');
@@ -22,7 +22,11 @@ function checkOR(names) {
     return false;
 };
 
-function checkAND(names) {
+//
+// 
+//
+// an -> AND, overall function name length must be 8 characters
+function check_ad(names) {
     // names is translated to an array
     if ( names.indexOf(',')>0 ) {
         names = names.split(',');

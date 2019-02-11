@@ -85,6 +85,10 @@ var FIN_framework = {
          250,
         // 12 / ms for very slow messages
          4600
+    ],
+    valid_test_instructions : [
+        "check_ad",
+        "check_or"
     ]
 };
 

@@ -11,6 +11,20 @@ function execute_instructions(verb,whatobj,whatactions) {
     if ( !( typeof(verb)=="string" && typeof(whatobj)=="object" && typeof(whatactions)=="string") ) {
         trigger_error(FIN_localization.ERROR_FORMAT);
     }
+    
+    				/////
+    				console.log(">>>",whatactions);
+					// check if it is a test instruction
+					if ( FIN_framework.valid_test_instructions.indexOf(stuff.substr(0,8)) >=0 ) {
+						console.log("IS TEST!");
+					}
+					else {
+						console.log("REGULAR INSTRUCTION");
+					}
+					
+					/////
+
+    
     // timeline counter is incremented anytime a significative input is recognized
     FIN_framework.TIMELINE+=1;
     debug_out("["+FIN_framework.TIMELINE+"]: "+verb+"/"+whatactions, 2);
