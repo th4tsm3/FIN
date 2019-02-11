@@ -11,7 +11,8 @@ var CRITTER = {
         if ( CRITTER.chores.length > 0 && yesno && FIN_framework.UI_ENABLED) {
             if (!FIN_framework.printing){
                 try{
-                    eval(CRITTER.chores.shift().replace(/\\"/g,'"'));
+					var stuff = CRITTER.chores.shift().replace(/\\"/g,'"');
+                    eval(stuff);
 		            if (CRITTER.chores.length>0){
                         CRITTER.runner(true);
                     }
@@ -20,7 +21,7 @@ var CRITTER = {
                     }
                 }
                 catch(err){
-                    trigger_error(FIN_localization.ERROR_RAW+" "+err);
+                    trigger_error(FIN_localization.ERROR_RAW+" "+err+" "+stuff);
                 }
             }
         }

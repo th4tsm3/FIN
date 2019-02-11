@@ -199,7 +199,7 @@ function sinonimo_to_oggetto (parola,vettore) {
 //
 // stops with custom message when a FIN framework error occurs
 function trigger_error(message) {
-	debug_out(callerName() +" >> "+"[!]");
+	debug_out(callerName() +" >> "+"[!]", -1);
     // stops UI input
     FIN_framework.UI_ENABLED = false;
     ////alert(FIN_localization.ERROR_FATAL+": "+message+"\nUI: "+FIN_framework.UI_ENABLED);

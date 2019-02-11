@@ -1,0 +1,132 @@
+# SCENA 1
+# 2018-03-26 ok
+
+#  && vvv imgs/occhi.png
+
+o  personaggio
+t  person,player
+s  guardati, guardami, perquisisciti, perquisiscimi, esaminami, esaminati, tu, te, stesso, medesimo, me, io, myself
+1 sss Una faccia come tante, niente di speciale.
+x
+
+### togliere subito dallo scope!
+o vai_avanti
+t room
+s prosegui, continua, ancora, ascolto, ti_ascolto, sentiamo, sto_a_sentire, sentiamo, ti_sento, sento, starmi_a_sentire, starti_a_sentire, sto_a_sentire, stare_a_sentire, sentire, stai
+1 ppp stanza && sss Tutto comincio` quando ruppi la sveglia.]] Quella mattina trillava a piu` non posso, come d'altronde era costretta a fare ogni mattina, per vincere il mio pesante sonno da orso in letargo. && vrb1 esamina,guarda,osserva,x,ispeziona,indaga,approfondisci,cerca,individua,trova && vrb2 prendi,afferra,raccogli,accendi,apri,sposta,muovi,movimenta,muoviti,spostati,cammina,incamminati,cambia,tocca,pasticcia,addentrati,avviati,inoltrati,incammina,percorri,entra,rientra,segui,insegui,seguire,inseguire,vai,andare,pulire,pulisci,ripulisci,prepara,fai,disfa,fare,disfare,ordinare,riordinare,ordina,riordina,lava,esci,indossa,metti && vrb3 utilizza, sveglia, distruggi, smonta, spacca, spezza, rompi, colpisci
+l personaggio
+x
+
+o stanza
+t  room
+s  letto, camera, cuscino, lenzuola, coperte
+l  sveglia, caffefalso
+x
+
+o sveglia
+s sveglietta, orologio, allarme, svegliati, svegliami, alzarsi, alzati, risvegliati, rialzati
+1 sss Mi svegliai di colpo, in un bagno di sudore e per la rabbia d'aver dormito cosi` poco e male, la schiaffeggiai malamente per spegnerla. Nonostante fosse soltanto l'inizio di giugno faceva gia` un gran caldo e io non potevo permettermi l'aria condizionata.<br> && ppp sveglio && rrr sveglia
+2 sss Mi svegliai di colpo, in un bagno di sudore e per la rabbia d'aver dormito cosi` poco e male, la schiaffeggiai malamente per spegnerla. Nonostante fosse soltanto l'inizio di giugno faceva gia` un gran caldo e io non potevo permettermi l'aria condizionata. && ppp sveglio && rrr sveglia
+3 sss Mi svegliai di colpo, in un bagno di sudore e per la rabbia d'aver dormito cosi` poco e male, la schiaffeggiai malamente per spegnerla. Nonostante fosse soltanto l'inizio di giugno faceva gia` un gran caldo e io non potevo permettermi l'aria condizionata. && ppp sveglio && rrr sveglia
+x
+
+o  sveglio
+t  room
+s  risvegliato
+0 sss Un'altra giornata impegnativa come le altre si prospettava. Sfogai un enorme sbadiglio e mi alzai; con una gran voglia di caffe`. $$ sss Il mio piccolo appartamento era abbastanza in disordine.
+L cucina,caffefalso, bagno, svegliarotta, casa, vestiti
+x
+
+o svegliarotta
+s sveglietta, orologio, allarme, svegliati, svegliami
+1 sss L'avevo comprata per pochi soldi in un grande magazzino, non era certo una gran perdita, ma mi toccava comunque rimediarne un'altra in giornata per non far tardi al lavoro in settimana. Era un venerdi`.
+x
+
+# FUNZIONA IL MOV SOTTO O VA INSERITO IN TRADUZIONE?
+o caffe
+s caffettiera, macchinetta,caffe`
+1 sss Estrassi la caffettiera da sotto una pila di piatti sporchi. Ovviamente non avevo lavato nemmeno quella dalla sera prima.
+2 sss Ripulii la caffettiera e mi feci un caffe` molto forte, come piaceva a me. Cominciavo a sentirmi piu` presente. &&  jjj SCENA+=1; && rrr caffe && mmm caffettiera, cucina
+L cucina
+x
+
+o caffettiera
+s macchinetta,caffe, caffe`
+1 sss La caffettiera era di nuovo sporca.
+x
+
+o bagno
+s bagnetto, wc, water
+t room
+1 sss Nel mio piccolissimo bagno tenevo minimo indispensabile, tra cui un rasoio elettrico.
+2 sss Mi diedi una bella rinfrescata e dopo una veloce rasatura ero di nuovo presentabile. &&  jjj SCENA+=1;
+l casa
+l vestiti, valutatorescena1, cucina, scena1texts
+x
+
+o scena1texts
+0 jjj ; $$ sss Il tempo era poco, e dovevo ancora lavarmi e vestirmi. $$  jjj ;  $$ sss Non volevo fare tardi al lavoro, era meglio finire di lavarsi e vestirsi.
+x
+
+o cucina
+t room
+s cucinino, angolo_cottura, angolo, cottura
+###############qui
+0 jjj ; $$ jjj ; $$ sss Il tempo stringe, meglio finire di lavarsi e vestirsi. $$  jjj ;  $$ sss Il tempo stringe, meglio finire di lavarsi e vestirsi.
+1 sss La piccola cucina del mio appartamento era sporca da almeno tre giorni. Ovvero dall'ultima volta che mi ero cucinato un pasto decente a casa.
+2 sss Mi spostai in cucina. && ppp cucina && rrr caffefalso
+L caffe, bagno, casa, vestiti, valutatorescena1
+x
+
+o caffefalso
+s caffettiera, caffe, caffe`
+1 sss Il mio piccolo angolo cottura... ma dove avevo messo la caffettiera? && ppp cucina && rrr caffefalso && mmm caffe, cucina
+2 sss Il mio piccolo angolo cottura... ma dove avevo messo la caffettiera? && ppp cucina && rrr caffefalso && mmm caffe, cucina
+x
+
+o vestiti
+s abiti, maglia, pantaloni, camicia, cravatta, vestirsi, vestiti
+0 jjj ; $$ jjj ; $$ jjj ; $$ jjj ; $$ jjj ; $$ jjj ; $$ jjj ; $$ sss Non ero affatto pronto per uscire, temevo che avrei fatto tardi. $$ sss Avevo lasciato i miei vestiti pronti e ben piegati su una sedia.
+1 sss Avevo lasciato i miei vestiti pronti su una sedia.
+2 sss Mi vestii con la camicia bianca e la cravatta come ero solito fare. && jjj SCENA+=1; && rrr vestiti
+x
+
+o valutatorescena1
+0 _jjj if (SCENA>=3) {mov('finitoscena1,personaggio')}
+x
+
+o casa
+s condominio, stanza, stanzetta, monolocale, pareti, muro, pavimento,soffitto, finestre, appartamento, abitazione, locale, alloggio, porta, uscita, fuori, intorno, in_giro, attorno
+0 jjj ; $$ jjj ; $$ sss La cartella con il computer e i documenti era gia` pronta accanto alla porta. $$ jjj ; $$ jjj ; $$ jjj ; $$ jjj ; $$ sss Dovevo davvero sbrigarmi, il tempo era poco.
+1 sss Mi ero trasferito in quella piccola cittadina di provincia da pochi mesi, con la scusa di aver fiutato una buona occasione per la mia carriera lavorativa. Un'occasione forse unica. Anche se Irene non era d'accordo.]] Salottino con angolo cottura, bagno e camera da letto. Di certo non ci organizzavo feste.
+2 _jjj if (SCENA>=3) {mov('finitoscena1,personaggio')} && sss Mi spostai verso la porta d'ingresso.
+L lavoro
+x
+
+
+o lavoro
+s impiego, ufficio, carriera, occupazione, computer, cartella, documenti
+1 sss Il mio era un lavoro da impiegato come tanti, in fondo. Forse, tutto sommato, non era davvero niente di speciale. Mi ero trasferito dalla mia citta` natale per inseguirlo. Ero giovane. Ero stupido.]] Si`, perche' Irene me l'aveva detto, aveva cercato di avvertirmi, ma io niente, testardo come un mulo.
+l irene
+x
+
+o irene
+s lei, donna, ragazza, fidanzata
+1 sss Irene: la piu` bella ragazza del quartiere. Mi amava. Che avreste fatto voi? Che ho fatto io? Me ne sono andato. $$ sss Per il momento preferisco non pensare piu` a lei.
+x
+
+################# END SCENA 1
+o finitoscena1
+0 sss Afferrai le chiavi di casa e della macchina e mi fiondai fuori con gia` in testa il progetto che stavo seguendo in ufficio. ]] ]] ]] Uscii sul pianerottolo e mi chiusi la porta alle spalle.]] Abitavo al quinto piano, non mi dispiaceva fare le scale, ma l'ascensore era libero. && eee finitoscena1 && ppp scena2start
+x
+
+################################################################################################
+################################################################################################
+
+
+o scena2start
+x
+
+
+
+

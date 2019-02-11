@@ -11,6 +11,11 @@
 # FIN_DOC=""
 # grep '^//' | tr -d '/' | sed 's:^ ::'
 
+# DIPENDENZE:
+# traduci.sh
+# traduttore_nodejs.js
+
+
 # exit in case of error
 set -e
 
@@ -20,7 +25,8 @@ FIN="16_fin.js_assembledsource.src"
 FINTITLE="01_html_REMARKS-HISTORY.src"
 FINSTORY="12_STORY-FILE.src"
 
-OUTDOC="FIN_documentation_"$SERIAL".txt"
+OUTDOC="FIN_documentation.md"
+#OUTDOC="FIN_documentation_"$SERIAL".txt"
 #OUTDOC="FIN_documentation_"$SERIAL".md"
 
 FINDIR="./fin"
@@ -120,7 +126,7 @@ cp -f $OUTDIR/$1_$SERIAL.html $OUTDIR/$1.html
 echo -e "Produced: '$OUTDIR/$1.html'"
 ### TBD il minificato non funziona
 ###cat $OUTDIR/$1_$SERIAL.html | sed 's:^ ::' | grep -v '^//' | tr -d '\n' | tr -d '\r' > $OUTDIR/$1_minified.html
-echo -e "Produced: '$OUTDIR/$1_minified.html'"
+#echo -e "Produced: '$OUTDIR/$1_minified.html'"
 
 
 # minificazione: cat ./*.src | grep -v '^ *//' | tr -d '\n' | sed 's:  *: :g'

@@ -14,7 +14,7 @@ FOCUS.lnkTo.unshift("v_0");
 FOCUS.lnkTo.unshift("v_1");
 FOCUS.lnkTo.unshift("v_2");
 FOCUS.lnkTo.unshift("v_3");
-// object cloning via jquery method to remember the starting point (for the "CRAWLER") TBD
+// object cloning via jquery method to remember the starting point (for the "story resolver") TBD
 var FOCUS_atstart = jQuery.extend(true, {}, FOCUS);
 // decoding objectsDefinition content
 // TBD bootstrap.js

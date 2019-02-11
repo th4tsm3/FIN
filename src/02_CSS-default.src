@@ -34,7 +34,7 @@ style_bright {}
 }
 
 body {
-    margin: 1px; /*workaround to distinguish the default embedded CSS*/
+    /*margin: 1px; /*workaround to distinguish the default embedded CSS*/
     padding-top: 2em;
 }
 

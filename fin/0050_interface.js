@@ -11,7 +11,7 @@
 //    ">N</a>'
 // timeout [sec]
 function system_popup(text, qnacode, timeout){
-    debug_out(text+" / "+timeout+ " / "+qnacode);
+    debug_out(text+" / "+timeout+ " / "+qnacode, 2);
     // if already present (only one popup at a time can be present)
     if ($(FIN_layout.sysmessage).css('display')!='none'){
         $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[2]);
@@ -120,10 +120,10 @@ function overlaywin_change_stylesheet(to) {
             }
         }
         catch (ERR) {
-            debug_out("stylesheet found");
+            debug_out("stylesheet not found");
             // system popup to inform of the stylesheet load failure
-            system_popup( FIN_localization.ERROR_NOTFOUND);
-            debug_out(ERR, 1);
+            system_popup( to+" <- "+FIN_localization.ERROR_NOTFOUND);
+            debug_out("default-style"+ERR, 1);
         }
         // changes icons style reference
         // white icons

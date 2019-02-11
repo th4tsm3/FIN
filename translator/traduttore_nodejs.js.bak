@@ -255,9 +255,10 @@ function string_filtering(str){
         }
     }
     // applies default instruction if no valid keyword is present at the beginning of the converted string
-    if ( FIN_translator.valid_instructions.indexOf( buildnew.substring(0,3)+'(\\"' ) < 0 ) {
-        buildnew = FIN_translator.defaultinstruction+buildnew;
-    }
+//    if ( FIN_translator.valid_instructions.indexOf( buildnew.substring(0,3)+'(\\"' ) < 0 ) {
+//        buildnew = FIN_translator.defaultinstruction+buildnew;
+//    }
+/////    console.log(">>>", buildnew);
     return buildnew;
 }
 
@@ -274,7 +275,7 @@ function parse_line(el, objsc){
         if (el[item][0]==FIN_translator.keywords.remark){
             continue;
         }
-        // preliminary check:
+        // preliminary check: ////////////////////////////////////////////////////
         // adding verb groups for the validity check
         var allvalues = take_values(FIN_translator.keywords);
         allvalues = allvalues.concat(['0','1','2','3']);

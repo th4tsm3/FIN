@@ -4,7 +4,7 @@
 
 - 2018-05 -> v01 - Goldfish
 
-- serial: 190208191709
+- serial: 190211164926
 
 
 # global objects definitions
@@ -1129,7 +1129,11 @@ prints without any effect
 
 animated scroll-up effect
 
-instruction: writes text in the "FIN_layout.placeholder": slow-printing
+
+
+### instruction: writes text in the "FIN_layout.placeholder": slow-printing
+
+
 
 paragraph form customization
 
@@ -1148,6 +1152,8 @@ instruction: writes text in the "FIN_layout.placeholder": fade-in
 TBD text = "<p>" + text + "<p>";
 
 text = "<br>" + text;
+
+OLD $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
 
 $(FIN_layout.previously).append(ics);
 
@@ -1245,13 +1251,13 @@ pulsante TRY
 
 TBD
 
-pulsante "debug" TBD
+
+
+## Special button for DEBUG purposes
+
+
 
 raw("PROVAAAA");
-
-console.log($("body").css("font-size"));
-
-console.log("SLOWPRINTING: "+UI_SLOWPRINTING);
 
 debug snippet frpom the web
 
@@ -1276,6 +1282,8 @@ the browser has allowed the opening
 the browser has blocked it
 
 writes a line of text in the secondary window (SecondaryWindow)
+
+TBD
 
 prints debug information if DEBUG global variable is set >0 (see DEBUG) to the console
 
@@ -1375,7 +1383,7 @@ sets page title => story title
 
 
 
-object cloning via jquery method to remember the starting point (for the "CRAWLER") TBD
+object cloning via jquery method to remember the starting point (for the "story resolver") TBD
 
 decoding objectsDefinition content
 
@@ -1405,11 +1413,17 @@ all other attributes
 
 setting specific story name identifier (prefix + 6 letters substring + _settings_bookmark)
 
+names is translated to an array
+
+names is translated to an array
+
 
 
 # Story Translator for FIN
 
 
+
+rev. 2019-02-11
 
 keywords: tot = length2; start: 0 (step+2); last: length-1 
 
@@ -1461,15 +1475,41 @@ jjj > raw
 
 ### verb changers
 
-vrb > 'vr0
+vrb0 > 'vr0
 
-vrb > 'vr1
+vrb1 > 'vr1
 
-vrb > 'vr2
+vrb2 > 'vr2
 
-vrb > 'vr3
+vrb3 > 'vr3
+
+keywords:
+
+# <- remark
+
+e <- element-start
+
+x <- element-end
+
+...
+
+verbs keywords:
+
+0 <- group 0
+
+1 <- group 1
+
+2 <- group 2
+
+3 <- group 3
 
 needed keywords: start, player, focus
+
+
+
+## takes out values list from a dictionary
+
+
 
 
 
@@ -1547,15 +1587,21 @@ more than one instructions
 
 one instruction only
 
+applies default instruction if no valid keyword is present at the beginning of the converted string
+
 
 
 ## line parser
 
 
 
+console.log(item, el[item][0]);
+
 remark -> ignored
 
 preliminary check:
+
+adding verb groups for the validity check
 
 outputs WARNINGS and ERRORS
 
@@ -1585,9 +1631,9 @@ storing TYPES
 
 storing SYNONIMS
 
-### verb 0 3
+### verb 0 3 (actually translates ANY number)
 
-storing VERBS
+storing VERBS INSTRUCTIONS
 
 ### links-to
 

@@ -1,0 +1,29 @@
+story Acciaio
+focus inizio
+start Era una notte buia e tempestosa... && vrb2 apri,aprire, forza, forzare, spingi, spingere
+player io_narrante
+
+e io_narrante
+s io, me, medesimo, stesso, te_stesso, me_stesso, guardami, guardati
+1 Sempre il solito. $$ sss La solita faccia.
+x
+
+e inizio
+s stanza, luogo, dintorni, attorno
+l io_narrante, porta
+1 Un luogo lugubre, anche se pieno di luce. Le pareti sono d'acciaio, e si restringono salendo verso la volta superiore, aumentando il senso di oppressione. L'unica porta, proprio di fronte a te, e` chiusa.
+x
+
+e porta
+s portoncino, sportello
+1 sss Una porta di metallo, con una grande maniglia circolare d'acciaio infissa al centro.
+2 sss La tua mano accarezza l'acciaio freddo. Il dubbio si fa strada nella mente e la mano si ritrae. Sara` la scelta giusta? $$ sss Si`, ora o mai piu`, afferri con entrambe le mani la maniglia circolare e fai forza.]] Inaspettatamente la porta si apre. Fuori e` buio. Notte? && eee E` finita...
+# l esterno
+x
+
+# o esterno
+# s fuori, aperto, qui , dintorni, intorno, via
+# 1 eee E` finita...
+# 2 eee E` finita...
+# 3 eee E` finita...
+# x

@@ -102,7 +102,9 @@ function txt(text){
     return;
 };
 
-//// instruction: writes text in the "FIN_layout.placeholder": slow-printing
+//
+// ### instruction: writes text in the "FIN_layout.placeholder": slow-printing
+//
 function txs(text){
     // paragraph form customization
 //    text = "<p>" + text + "</p>";
@@ -111,14 +113,15 @@ function txs(text){
     FIN_framework.printing= true;
     // prints with slow-print
 
-    if(CRAWLER.working) {
+/*    if(CRAWLER.working) {
         txt(text);
     }
     else {
+*/
         //txt('<br>');
         slowPrinter.add(text);
         slowPrinter.delay(FIN_framework.UI_FIGURES[6]);
-    }
+    /*}*/
         
     /*
     if (typeof(CRAWLER)!="undefined") {
@@ -141,12 +144,15 @@ function txf(text){
 //    text = "<br>" + text;
     debug_out("txf: "+text+"/", 3);
     FIN_framework.printing= true;
-        if(CRAWLER.working) {
+/*        if(CRAWLER.working) {
         txt(text);
     }
+
     else {
+*/
         var ics = '<br>'+add_custom_html_tags( text, FIN_framework.DICTIONARY );
-        $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
+//  OLD      $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
+        $(FIN_layout.placeholder).hide().html( '<br>'+text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
 //            $(FIN_layout.previously).append(ics);
             $(FIN_layout.previously).append(ics);
             $(FIN_layout.placeholder).html("");
@@ -155,7 +161,8 @@ function txf(text){
             FIN_framework.printing= false;          
             CRITTER.runner(true);
         });
-    }
+/*    }
+*/
     return;
 };
 

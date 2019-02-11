@@ -14,6 +14,7 @@ function try_button() {
     debug_out("TRY BUTTON PRESSED",1);
     if (typeof(CRAWLER)!="undefined") {    
         if (!CRAWLER.working) {
+			// TBD
             CRAWLER.start();
         }
         else {
@@ -25,18 +26,17 @@ function try_button() {
     }
 };
 
-//// pulsante "debug" TBD
-function debug_button() {
+//
+// ## Special button for DEBUG purposes
+//
+function DEBUGGER_button() {
     //raw("PROVAAAA");
     debug_out("DEBUG-BUTTON PRESSED:",2);
-//    console.log($("body").css("font-size"));
-//    console.log("SLOWPRINTING: "+UI_SLOWPRINTING);
     debug_out("FOCUS: << "+current_focus()+" >> "+FOCUS.lnkTo, 1);
     debug_out("IN-SCOPE: "+inscope_objs_list(FOCUS), 2);
     debug_out("DICTIONARY:"+FIN_framework.DICTIONARY, 3);
     debug_out("FIN_framework.HISTORY INPUT: "+FIN_framework.HISTORY.input,4);
     debug_out("FIN_framework.HISTORY DONE:"+FIN_framework.HISTORY.done,4);
-    debug_out("CRITTER:"+CRITTER.chores,4);
 };
 
 /* ************************************ 
@@ -181,7 +181,8 @@ function write_in_secondary_window(what){
         secondary_window.document.writeln(what+"<br>");
     }
     catch(err){
-        trigger_error(ERROR_NOTFOUND);
+        trigger_error(ERROR_NOTFOUND+" "+"SECONDARY-WIN");
+        // TBD
     }
 };
 

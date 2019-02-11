@@ -198,7 +198,8 @@ var CRITTER = {
         if ( CRITTER.chores.length > 0 && yesno && FIN_framework.UI_ENABLED) {
             if (!FIN_framework.printing){
                 try{
-                    eval(CRITTER.chores.shift().replace(/\\"/g,'"'));
+					var stuff = CRITTER.chores.shift().replace(/\\"/g,'"');
+                    eval(stuff);
 		            if (CRITTER.chores.length>0){
                         CRITTER.runner(true);
                     }
@@ -207,7 +208,7 @@ var CRITTER = {
                     }
                 }
                 catch(err){
-                    trigger_error(FIN_localization.ERROR_RAW+" "+err);
+                    trigger_error(FIN_localization.ERROR_RAW+" "+err+" "+stuff);
                 }
             }
         }
@@ -775,7 +776,7 @@ function sinonimo_to_oggetto (parola,vettore) {
 //
 // stops with custom message when a FIN framework error occurs
 function trigger_error(message) {
-	debug_out(callerName() +" >> "+"[!]");
+	debug_out(callerName() +" >> "+"[!]", -1);
     // stops UI input
     FIN_framework.UI_ENABLED = false;
     ////alert(FIN_localization.ERROR_FATAL+": "+message+"\nUI: "+FIN_framework.UI_ENABLED);
@@ -1225,7 +1226,7 @@ function replaceString(trova, sostituisci, qui) {
 //    ">N</a>'
 // timeout [sec]
 function system_popup(text, qnacode, timeout){
-    debug_out(text+" / "+timeout+ " / "+qnacode);
+    debug_out(text+" / "+timeout+ " / "+qnacode, 2);
     // if already present (only one popup at a time can be present)
     if ($(FIN_layout.sysmessage).css('display')!='none'){
         $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[2]);
@@ -1334,10 +1335,10 @@ function overlaywin_change_stylesheet(to) {
             }
         }
         catch (ERR) {
-            debug_out("stylesheet found");
+            debug_out("stylesheet not found");
             // system popup to inform of the stylesheet load failure
-            system_popup( FIN_localization.ERROR_NOTFOUND);
-            debug_out(ERR, 1);
+            system_popup( to+" <- "+FIN_localization.ERROR_NOTFOUND);
+            debug_out("default-style"+ERR, 1);
         }
         // changes icons style reference
         // white icons
@@ -1985,7 +1986,9 @@ function txt(text){
     return;
 };
 
-//// instruction: writes text in the "FIN_layout.placeholder": slow-printing
+//
+// ### instruction: writes text in the "FIN_layout.placeholder": slow-printing
+//
 function txs(text){
     // paragraph form customization
 //    text = "<p>" + text + "</p>";
@@ -1994,14 +1997,15 @@ function txs(text){
     FIN_framework.printing= true;
     // prints with slow-print
 
-    if(CRAWLER.working) {
+/*    if(CRAWLER.working) {
         txt(text);
     }
     else {
+*/
         //txt('<br>');
         slowPrinter.add(text);
         slowPrinter.delay(FIN_framework.UI_FIGURES[6]);
-    }
+    /*}*/
         
     /*
     if (typeof(CRAWLER)!="undefined") {
@@ -2024,12 +2028,15 @@ function txf(text){
 //    text = "<br>" + text;
     debug_out("txf: "+text+"/", 3);
     FIN_framework.printing= true;
-        if(CRAWLER.working) {
+/*        if(CRAWLER.working) {
         txt(text);
     }
+
     else {
+*/
         var ics = '<br>'+add_custom_html_tags( text, FIN_framework.DICTIONARY );
-        $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
+//  OLD      $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
+        $(FIN_layout.placeholder).hide().html( '<br>'+text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
 //            $(FIN_layout.previously).append(ics);
             $(FIN_layout.previously).append(ics);
             $(FIN_layout.placeholder).html("");
@@ -2038,7 +2045,8 @@ function txf(text){
             FIN_framework.printing= false;          
             CRITTER.runner(true);
         });
-    }
+/*    }
+*/
     return;
 };
 
@@ -2237,6 +2245,7 @@ function try_button() {
     debug_out("TRY BUTTON PRESSED",1);
     if (typeof(CRAWLER)!="undefined") {    
         if (!CRAWLER.working) {
+			// TBD
             CRAWLER.start();
         }
         else {
@@ -2248,18 +2257,17 @@ function try_button() {
     }
 };
 
-//// pulsante "debug" TBD
-function debug_button() {
+//
+// ## Special button for DEBUG purposes
+//
+function DEBUGGER_button() {
     //raw("PROVAAAA");
     debug_out("DEBUG-BUTTON PRESSED:",2);
-//    console.log($("body").css("font-size"));
-//    console.log("SLOWPRINTING: "+UI_SLOWPRINTING);
     debug_out("FOCUS: << "+current_focus()+" >> "+FOCUS.lnkTo, 1);
     debug_out("IN-SCOPE: "+inscope_objs_list(FOCUS), 2);
     debug_out("DICTIONARY:"+FIN_framework.DICTIONARY, 3);
     debug_out("FIN_framework.HISTORY INPUT: "+FIN_framework.HISTORY.input,4);
     debug_out("FIN_framework.HISTORY DONE:"+FIN_framework.HISTORY.done,4);
-    debug_out("CRITTER:"+CRITTER.chores,4);
 };
 
 /* ************************************ 
@@ -2404,7 +2412,8 @@ function write_in_secondary_window(what){
         secondary_window.document.writeln(what+"<br>");
     }
     catch(err){
-        trigger_error(ERROR_NOTFOUND);
+        trigger_error(ERROR_NOTFOUND+" "+"SECONDARY-WIN");
+        // TBD
     }
 };
 
@@ -2601,7 +2610,7 @@ FOCUS.lnkTo.unshift("v_0");
 FOCUS.lnkTo.unshift("v_1");
 FOCUS.lnkTo.unshift("v_2");
 FOCUS.lnkTo.unshift("v_3");
-// object cloning via jquery method to remember the starting point (for the "CRAWLER") TBD
+// object cloning via jquery method to remember the starting point (for the "story resolver") TBD
 var FOCUS_atstart = jQuery.extend(true, {}, FOCUS);
 // decoding objectsDefinition content
 // TBD bootstrap.js
@@ -2671,4 +2680,52 @@ for ( var o in objectsDefinition ) {
 
 // setting specific story name identifier (prefix + 6 letters substring + _settings/_bookmark)
 FIN_framework.STORY_STORAGE = 'FIN_'+STORY.substr(0,6).replace(/ /g,"_");
+
+function clean_up_array(array) { 
+    return array.map( function(el) {
+        return el.toLowerCase().trim() } );
+};
+
+function checkOR(names) {
+    // names is translated to an array
+    if ( names.indexOf(',')>0 ) {
+        names = names.split(',');
+    }
+    else {
+        names = [ names ];
+    }
+    names = clean_up_array(names);
+    var list_to_be_checked = inscope_objs_list(FOCUS);
+    for (nm in names) {
+        console.log(names[nm], list_to_be_checked);
+        if ( list_to_be_checked.indexOf( names[nm] ) >=0 ) {
+            return true;
+        }
+    }
+    return false;
+};
+
+function checkAND(names) {
+    // names is translated to an array
+    if ( names.indexOf(',')>0 ) {
+        names = names.split(',');
+    }
+    else {
+        names = [ names ];
+    }
+    names = clean_up_array(names);
+    var all = names.length;
+    var list_to_be_checked = inscope_objs_list(FOCUS);
+    for (var i=0; i<names.length; i++) {
+        if ( list_to_be_checked.indexOf( names[i] ) >=0 ) {
+            all-=1;          
+        }
+    }
+    if (all>0) {
+        return false;
+    }
+    else {
+        return true;
+    }
+};
 
