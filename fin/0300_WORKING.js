@@ -3,7 +3,10 @@ function clean_up_array(array) {
         return el.toLowerCase().trim() } );
 };
 
-function check_or(names) {
+//
+// ## test instrucion: at least one of the mentioned elements is visible
+//
+function chk_or_(names) {
     // names is translated to an array
     if ( names.indexOf(',')>0 ) {
         names = names.split(',');
@@ -23,10 +26,9 @@ function check_or(names) {
 };
 
 //
-// 
+// ## test instrucion: all the mentioned elements are visible
 //
-// an -> AND, overall function name length must be 8 characters
-function check_ad(names) {
+function chk_and(names) {
     // names is translated to an array
     if ( names.indexOf(',')>0 ) {
         names = names.split(',');

@@ -4,7 +4,7 @@
 
 - 2018-05 -> v01 - Goldfish
 
-- serial: 190211194153
+- serial: 190213181511
 
 
 # global objects definitions
@@ -157,8 +157,6 @@ pseudo-window state
 
 
 
-function fin_object(nome)
-
 object type:
 
 object -> generic
@@ -233,8 +231,6 @@ StoryWalkers collection with methods is added to the FIN_framework object
 
 StoryWalker-id is a unique number: 0000--9999
 
-function define_id() 
-
 
 
 ## fuzzy decision maker: throws a die
@@ -242,8 +238,6 @@ function define_id()
 
 
 parameter resembles the number of possibilities among we have to choose
-
-function take_decision(possibilities) 
 
 possibilities enumeration starts from 0, so the return value is reduced by 1
 
@@ -255,13 +249,9 @@ possibilities enumeration starts from 0, so the return value is reduced by 1
 
 returns a deep copy of a json object
 
-function deep_copy(what)
-
 make a deep copy of an object
 
 debug
-
-function walkers()
 
 
 
@@ -375,7 +365,7 @@ gets characters to be printed out of the buffer
 
 ignoring in case of <br> only TBD: non gestisce correttamente tutti i tag
 
-else if (out=='&' && slowPrinter.fifo[0]!=' ') 
+else if (out=='&' && slowPrinter.fifo[0]!=' ') {
 
 manages scrolling effect
 
@@ -409,69 +399,15 @@ whatobj = target objects (array)
 
 whatactions = actions extracted from object
 
-function execute_instructions(verb,whatobj,whatactions) 
-
 timeline counter is incremented anytime a significative input is recognized
 
-function myReplace(str, group1, group2) 
-
 '||' is used as a separator
-
-function(elem)
-
-
-
-## instruction: removes an object from scope (does not destroy the object)
-
-
-
-function rem(objt) 
-
-ex: rem("casa");
-
-removes lnkTo from any other linked-object
-
-deletes lnkFrom of the object itself
-
-
-
-## instruction: object moving
-
-
-
-function mov(stringofinstr) 
-
-ex: mov("fungo, cappuccetto_rosso");
-
-removes link-to from any element found in link-from of the moved object
-
-deletes link-from
-
-new connection link-fromlink-to setup
-
-
-
-## instruction: moves "player" special object
-
-
-
-function plt(moveto) 
-
-FOCUS special object manipulation, following player movement:
-
-important: modifies the point of view!
-
-current point of view is stored in the last position of the FOCUS.lnkTo array => substituted
-
-FOCUS.lnkTo[FOCUS.lnkTo.length-1],2);
 
 
 
 ## find object-name (string)
 
 
-
-function object_name(di) 
 
 returns object name (first synonim)
 
@@ -481,8 +417,6 @@ returns object name (first synonim)
 
 
 
-function elimina_indefiniti(vettore) 
-
 returns cleaned up array
 
 
@@ -490,8 +424,6 @@ returns cleaned up array
 ## removes multiple instances (uniq)
 
 
-
-function elimina_elementi_ripetuti(array) 
 
 note: 'index', not 'indexOf'
 
@@ -505,13 +437,9 @@ returns cleaned up array
 
 builds the list of the objects currently in-scope
 
-function inscope_objs_list(oggetto) 
-
 ex: console.log(inscope_objs_list( FOCUS ) );
 
 checks if it's a "focus" type special object
-
-function cercatrailink(og) 
 
 looks inside only if the object has not been evaluated yet
 
@@ -527,8 +455,6 @@ returns in-scope objects list as an array of strings (object names)
 
 looks for a word among synonims inside an array of objects
 
-function sinonimo_to_oggetto (parola,vettore) 
-
 returns the corresponding object
 
 
@@ -538,8 +464,6 @@ returns the corresponding object
 
 
 stops with custom message when a FIN framework error occurs
-
-function trigger_error(message) 
 
 stops UI input
 
@@ -553,8 +477,6 @@ throws fatal javascript error
 
 
 
-function confronta(un,du) 
-
 ex: confronta(oggettoa, oggettob)
 
 returns "true" or "false"
@@ -564,8 +486,6 @@ returns "true" or "false"
 ## verifies link-to presence in an object
 
 
-
-function verifica_lnkTo(oggetto, parola) 
 
 ex: verifica_links(oggetto, "casa")
 
@@ -577,8 +497,6 @@ returns "true" or "false"
 
 
 
-function verifica_lnkFr(oggetto, parola) 
-
 ex: verifica_links(oggetto, "casa")
 
 returns "true" or "false"
@@ -588,8 +506,6 @@ returns "true" or "false"
 ## defines a link from an object to another
 
 
-
-function connetti(da,a) 
 
 ex: connetti("cestino","fungo")
 
@@ -605,8 +521,6 @@ returns "true" if everything worked as expected
 
 
 
-function array_remove(element,array) 
-
 returns the purged array or false if it fails
 
 
@@ -614,8 +528,6 @@ returns the purged array or false if it fails
 ## base sixtyfour decoder
 
 
-
-function basesixtyfourdecode(what)
 
 return it as is if we are in debug mode
 
@@ -630,8 +542,6 @@ CLEANED UP UP TO HERE
 
 
 resets all object links and actions to what stated in the story file at the beginning
-
-function fin_story_reset()
 
 FOCUS = FOCUS_atstart;
 
@@ -651,8 +561,6 @@ console.log( og, what, element[i] );
 
 
 
-function autoexec_v0s()
-
 for repetition prefix '_' the instruction is injected again
 
 
@@ -660,10 +568,6 @@ for repetition prefix '_' the instruction is injected again
 ## main interpreter function: from instruction to object-action
 
 
-
-function command_input_manager(stringa,chiamante) 
-
-function parse_input_text( stringa , focus ) 
 
 records command history
 
@@ -676,8 +580,6 @@ first loop looks for composite words
 "#" is used as a placeholder for a composite word
 
 STEP 2: corrects the wrong words
-
-function (og) 
 
 STEP 3: loop to find verb and object
 
@@ -713,11 +615,35 @@ the identified objects are stored here
 
 default action: in case no verbs have been found -> v_1
 
-STEP 5: looks for actions linked to the verb for each identified object
+STEP 5: looks for instructions linked to the verb for each identified object
 
-takes out the instruction from the object if it's not a special one _...
+takes out the instruction from the object
+
+substring to check the first characters (7)
+
+a test instruction is immediately evaluatedexecuted
+
+console.log(">",taking, taking.split('||'));
+
+true -> going on the next
+
+false -> reinjecting test instruction
+
+actions=taking;
+
+regular instruction
+
+eval(taking);
+
+CRITTER.chores.push(taking);
+
+actions=taking;
+
+input not understood by the framework
 
 instructions execution
+
+console.log(">>",actions.length,actions);
 
 reset of fail-counter
 
@@ -743,8 +669,6 @@ periodic instructions (v0 verbs)
 
 ex: current_focus()
 
-function current_focus()
-
 
 
 # grammar
@@ -752,8 +676,6 @@ function current_focus()
 
 
 ## 2-words-alike?
-
-function stima_similitudine(a,b) 
 
 ex: stima_similitudine("bosco","boschetto")
 
@@ -771,15 +693,11 @@ calculates the proximity value from the relative distance in the two arrays
 
 tries to guess the most similar word
 
-function correttore_parole (paroladacontrollare,dizionario,soglia) 
-
 ex: correttore_parole ("boxco",FIN_framework.DICTIONARY) >> bosco
 
 if the word is very short it is returned as it is
 
 for each word in the dictionary
-
-function (og) 
 
 considered only if above the % threshold
 
@@ -792,8 +710,6 @@ returns the new word
 
 
 Mozilla: https:developer.mozilla.orgen-USdocsWebJavaScriptReferenceGlobal_ObjectsStringsubstring
-
-function replaceString(trova, sostituisci, qui) 
 
 
 
@@ -819,15 +735,13 @@ $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]);\
 
 timeout [sec]
 
-function system_popup(text, qnacode, timeout)
-
 if already present (only one popup at a time can be present)
 
 default timeout is 30 seconds
 
 if "qna" is "undefined" the window fades away (informative popup)
 
-ridondanza? TBD setTimeout('if $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) $(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', FIN_framework.UI_FIGURES[12]*2);
+ridondanza? TBD setTimeout('if $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) { $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) {$(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', FIN_framework.UI_FIGURES[12]*2);
 
 
 
@@ -837,8 +751,6 @@ ridondanza? TBD setTimeout('if $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI
 
 asks for activation of full-screen mode via system_popup (fullscreen requires user interaction)
 
-function toggleFull()
-
 
 
 ## word highlighting
@@ -846,8 +758,6 @@ function toggleFull()
 
 
 toggles word-highlighting or forces it to onoff (truefalse)
-
-function toggle_wordhighlight(force)
 
 forcing
 
@@ -859,8 +769,6 @@ toggling
 
 
 
-function overlaywin_change(todo) 
-
 scrolls to the top of the overlaywin contents
 
 Adds FIN version information to the overlay window (operates only at the 2nd opening)
@@ -870,8 +778,6 @@ Adds FIN version information to the overlay window (operates only at the 2nd ope
 ## overlaywin commands: change stylesheet
 
 
-
-function overlaywin_change_stylesheet(to) 
 
 changes stylesheet reference
 
@@ -895,8 +801,6 @@ default (black)
 
 
 
-function get_display_size() 
-
 0 returns height of browser viewport
 
 1 returns width of browser viewport
@@ -912,8 +816,6 @@ function get_display_size()
 ## adds custom html tags a(wd or wdh) to the text to recognize word-clicktouch
 
 
-
-function add_custom_html_tags( text , dizionario ) 
 
 deletes tags and punctuation for comparison
 
@@ -931,8 +833,6 @@ if it's included in the dictionary, adds the <wd> tag
 
 
 
-function verb1 () 
-
 invio il comando v_1 insieme al contenuto preacquisito della stringa input
 
 
@@ -940,8 +840,6 @@ invio il comando v_1 insieme al contenuto preacquisito della stringa input
 ### verbs group 2
 
 
-
-function verb2 () 
 
 se era gia` stato indicato un verbo pulisco e aggiungo il nuovo
 
@@ -951,8 +849,6 @@ se era gia` stato indicato un verbo pulisco e aggiungo il nuovo
 
 
 
-function verb3 () 
-
 se era gia` stato indicato un verbo pulisco e aggiungo il nuovo
 
 
@@ -961,11 +857,7 @@ se era gia` stato indicato un verbo pulisco e aggiungo il nuovo
 
 
 
-function toggle_realclock() 
-
 TBD-TBC
-
-function right_UI_button() 
 
 resets text in right UI button
 
@@ -977,15 +869,11 @@ resets text in input string space
 
 
 
-function clr() 
-
 
 
 ## feedback string visualization
 
 
-
-function msg(text) 
 
 
 
@@ -993,15 +881,11 @@ function msg(text)
 
 
 
-function clock_update() 
-
 
 
 ## identifies clicktouch on a word in the text stream (works with tags)
 
 
-
-function pick_a_word(arg) 
 
 applies graphic effects and shows word in "FIN_layout.inputarea"
 
@@ -1013,8 +897,6 @@ on 2nd click, v_1 interaction is fired as default
 
 
 
-function adjust_for_keyb() 
-
 hides icons & show FIN_layout.inputstring
 
 
@@ -1023,15 +905,11 @@ hides icons & show FIN_layout.inputstring
 
 
 
-function adjust_for_touch()
-
 
 
 ## font set increase
 
 
-
-function font_increase()
 
 FIN_layout.inputstring must be explicitly targeted (why? TBD)
 
@@ -1041,8 +919,6 @@ FIN_layout.inputstring must be explicitly targeted (why? TBD)
 
 
 
-function font_decrease()
-
 FIN_layout.inputstring must be explicitly targeted (why? TBD)
 
 
@@ -1051,23 +927,17 @@ FIN_layout.inputstring must be explicitly targeted (why? TBD)
 
 
 
-function set_overlay_content(what)
-
 
 
 ## cleans all the output areas
 
 
 
-function outputarea_cleanup() 
-
 
 
 ## initial UI building and tuning
 
 
-
-function bootstrap_UI_setup() 
 
 clock start, setting update interval (ms)
 
@@ -1087,8 +957,6 @@ takes cookie-stored settings if available and overwrites standard "FIN_framework
 
 
 
-function layout_setup() 
-
 fine tuning lower stop-point for the output stream
 
 
@@ -1099,15 +967,11 @@ fine tuning lower stop-point for the output stream
 
 useful to implement checks on css rules definition
 
-function getAllCssSelectors() 
-
 
 
 ## sound play manager
 
 
-
-function play_sound(soundobject) 
 
 html must contain:
 
@@ -1121,15 +985,11 @@ if sound data is base64 encoded
 
 
 
-function toggle_audioplayer()
-
 
 
 ## overlaywin tab switcher
 
 
-
-function overlay_tab(what)
 
 1 = CONFIG
 
@@ -1149,21 +1009,15 @@ Loop over all stored values
 
 stores some data in browser
 
-function store_data_in_browser(thing, content)
-
 stores data via storage.js lib
 
 recalls data (settings or bookmark)
 
-function recall_data_in_browser(thing)
-
-if ( typeof(x) != 'undefined' && ( x.split('_')[x.split('_').length-1] == 'settings' || x.split('_')[x.split('_').length-1] == 'bookmark') ) 
+if ( typeof(x) != 'undefined' && ( x.split('_')[x.split('_').length-1] == 'settings' || x.split('_')[x.split('_').length-1] == 'bookmark') ) {
 
 recalls FIN bookmark
 
-function overlaywin_restore() 
-
-TBD if () 
+TBD if (){ 
 
 .split('||');
 
@@ -1171,21 +1025,15 @@ TBD che fare per applicare?
 
 saves FIN bookmark
 
-function overlaywin_savegame() 
-
 TBD XXXX
 
 saves FIN settings
-
-function overlaywin_savesettings() 
 
 forming settings name
 
 gets current settings
 
 recalls FIN settings
-
-function recall_settings() 
 
 recalls
 
@@ -1199,8 +1047,6 @@ word highlighting
 
 audio player
 
-function remove_all_stored_data() 
-
 
 
 # framework: instructions
@@ -1213,9 +1059,9 @@ function remove_all_stored_data()
 
 
 
-function rem(objt) 
-
 ex: rem("casa");
+
+var undef;
 
 removes lnkTo from any other linked-object
 
@@ -1226,8 +1072,6 @@ deletes lnkFrom of the object itself
 ## instruction: object moving
 
 
-
-function mov(stringofinstr) 
 
 ex: mov("fungo, cappuccetto_rosso");
 
@@ -1243,8 +1087,6 @@ new connection setup
 
 
 
-function plt(moveto) 
-
 FOCUS manipulation, following player movement:
 
 important: modifies the point of view
@@ -1253,21 +1095,15 @@ current point of view is stored in the last position of the FOCUS.lnkTo array =>
 
 ## instruction: graphicsimage changer
 
-function img(imgPath)
-
 TBD
 
 instruction: inserisce una immagine TBD
-
-function imgOLD(im,pc,SizeAndPlacement) 
 
 TBD
 
 $("#placeholder").append('<br><img src="'+im+'" class="el_fadein '+posizione+'" width="'+pc+'%"><br>');
 
 instruction: writes text in the "FIN_layout.placeholder" without any effect
-
-function txt(text)
 
 paragraph form customization
 
@@ -1285,8 +1121,6 @@ animated scroll-up effect
 
 
 
-function txs(text)
-
 paragraph form customization
 
 text = "<p>" + text + "<p>";
@@ -1301,13 +1135,11 @@ da rivedere gli altri print:!!! TBD
 
 instruction: writes text in the "FIN_layout.placeholder": fade-in
 
-function txf(text)
-
 TBD text = "<p>" + text + "<p>";
 
 text = "<br>" + text;
 
-OLD $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function()
+OLD $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
 
 $(FIN_layout.previously).append(ics);
 
@@ -1317,21 +1149,15 @@ instruction: chapterstory end with text output and link to following (optional)
 
 TBD
 
-function end(what)
-
 TBD
 
 << time to avoid messing up with the output stream
 
 instruction: executes "raw" javascript code (for "count" times) - it's not possible to use " but only '
 
-function raw(cosa,count) 
-
-function raw(what)
+function raw(cosa,count) {
 
 instruction: replaces synonims to verb objects
-
-function vr0(what)
 
 TBD verifiche!!!
 
@@ -1345,8 +1171,6 @@ newarray.push(toput[el].toLowerCase().trim());
 
 TBD: trigger_error();
 
-function vr1(what)
-
 TBD verifiche!!!
 
 ex: vr1("do, doing")
@@ -1359,8 +1183,6 @@ newarray.push(toput[el].toLowerCase().trim());
 
 TBD: trigger_error();
 
-function vr2(what)
-
 TBD verifiche!!!
 
 ex: vr2("do, doing")
@@ -1372,8 +1194,6 @@ the first synonim must be the v_...
 newarray.push(toput[el].toLowerCase().trim());
 
 TBD: trigger_error();
-
-function vr3(what)
 
 TBD verifiche!!!
 
@@ -1389,15 +1209,11 @@ TBD: trigger_error();
 
 commute state of an object: openclosed
 
-function com(objn) 
-
 
 
 ## play a sound
 
 
-
-function pas(soundfile)
 
 $(FIN_layout.audioplayer).fadeIn(FIN_framework.UI_FIGURES[7]);
 
@@ -1415,13 +1231,9 @@ add here the code to auto hide the player on end or obtein other behaviour
 
 TBD prova
 
-function prova() 
-
 TBD document.onclick.stopPropagation();
 
 pulsante TRY
-
-function try_button() 
 
 TBD
 
@@ -1431,33 +1243,11 @@ TBD
 
 
 
-function DEBUGGER_button() 
-
 raw("PROVAAAA");
 
 debug snippet frpom the web
 
 from: http:jsfiddle.netbladnmanEhUm3 TBD
-
-function callerName() 
-
-function trim(inString) 
-
-function getStringValue(inString) 
-
-function fLeft(inText, delim) 
-
-function fLeftBack(inText, delim) 
-
-function fRight(inText, delim) 
-
-function fRightBack(inText, delim) 
-
-function fBetween(inText, delimLeft, delimRight) 
-
-function isNoE(obj) 
-
-function isNullOrEmpty(obj) 
 
 must test type of base object first
 
@@ -1471,8 +1261,6 @@ STRING
 
 
 
-function open_secondary_window()
-
 the browser has allowed the opening
 
 +'<div><body><html>'); << tags to be closed... TBD
@@ -1481,13 +1269,9 @@ the browser has blocked it
 
 writes a line of text in the secondary window (SecondaryWindow)
 
-function write_in_secondary_window(what)
-
 TBD
 
 prints debug information if DEBUG global variable is set >0 (see DEBUG) to the console
-
-function debug_out(it,verbosity)
 
 to_stream('<br><i style="font-size: 9pt;">'+it+'<i><br>');
 
@@ -1495,19 +1279,13 @@ funzione che scrive nella finestra di stream di testo TBD
 
 ora non usata
 
-function to_stream(what) 
-
 $(popupwin.document.body).append(what);
 
 WATCH per un oggetto
 
-function ispeziona_oggetto(ogg) 
-
 ispeziona tutti gli oggetti definiti
 
-function ispeziona_allobjects(vettogg) 
-
-if ( vettogg[i].typ.indexOf("verb") >=0 ) 
+if ( vettogg[i].typ.indexOf("verb") >=0 ) {
 
 debug_out( vettogg[i].syn[0],1 );
 
@@ -1517,23 +1295,15 @@ debug_out( vettogg[i].lnkTo,1 );
 
 inspection of the in-scope objects
 
-function ispeziona_scope (oggpart) 
-
 ispeziona_oggetto(eval(objs[i]));
 
 ispeziona_allobjects(objs);
 
 inspection of current verbs synonims
 
-function ispeziona_verbi() 
-
 POSIZIONE PLAYER TBD
 
-function POS() 
-
 image (<img> tag) fade-out fade-in effect TBD
-
-function change_image(sourceimg) 
 
 displays topgradient if concealed
 
@@ -1544,8 +1314,6 @@ fades out old image and fades in the new one
 NON FUNZIONA PERCHE" il cambio di src riesce sempre, cosa verificarte??? TBD XXXX
 
 setup dynamic image size
-
-function setup_image(verticalfraction)
 
 $("body").prepend('<div id="imagezonecontainer" style="max-width:100%;max-height:100%;width:auto;height:auto;z-index:9;margin-left:auto;margin-right:auto;display:none"> <img id="imagezone" style="max-width:100%;max-height:100%;width:auto;height:auto;z-index:10;margin-left: auto;margin-right: auto;opacity: 1;" src=""><div> <div>');
 
@@ -1565,8 +1333,6 @@ $(imagezonecontainer).css('height').split('px')[0]
 
 https:stackoverflow.comquestions10841532canvas-drawimage-scaling
 
-function drawImageOnCanvas(source) TBD
-
 document.getElementById("myImageToDisplayOnCanvas");
 
 "https:panoramacouncil.orgpicscontentheaderPanorama_Rouen1431_neu_4c_c-asisi(1).jpg"
@@ -1580,8 +1346,6 @@ context.drawImage(imageObj, 0, 0, imageObj.naturalWidth, imageObj.naturalHeight,
 - verb synonims substitutor TBD USATO?
 
 es: verb_substitution("1, fare") >> v_1.syn = ["disfare"] >> ["fare"]
-
-function verb_substitution(what) 
 
 the first is the number that identifies the verb group (it is removed)
 
@@ -1635,13 +1399,19 @@ all other attributes
 
 setting specific story name identifier (prefix + 6 letters substring + _settings_bookmark)
 
-function clean_up_array(array) 
 
-function checkOR(names) 
+
+## test instrucion: at least one of the mentioned elements is visible
+
+
 
 names is translated to an array
 
-function checkAND(names) 
+
+
+## test instrucion: all the mentioned elements are visible
+
+
 
 names is translated to an array
 
@@ -1652,6 +1422,10 @@ names is translated to an array
 
 
 rev. 2019-02-11
+
+rev. 2019-02-13
+
+
 
 keywords: tot = length2; start: 0 (step+2); last: length-1 
 
@@ -1710,6 +1484,10 @@ vrb1 > 'vr1
 vrb2 > 'vr2
 
 vrb3 > 'vr3
+
+test instruction: OR (chk identifies check instructions)
+
+test instruction: AND (chk identifies check instructions)
 
 keywords:
 
@@ -1817,6 +1595,12 @@ one instruction only
 
 applies default instruction if no valid keyword is present at the beginning of the converted string
 
+console.log(">",FIN_translator.valid_instructions);
+
+console.log(">>", buildnew.substring(0,7)+'(\\"' , FIN_translator.valid_instructions[41] , FIN_translator.valid_instructions[43]);
+
+console.log(">>>", buildnew.substring(0,7)+'(\\"' == FIN_translator.valid_instructions[41] );
+
 
 
 ## line parser
@@ -1874,6 +1658,8 @@ last object?
 ### last item adjustment
 
 last object?
+
+return(GENERAL+STREAM);
 
 
 

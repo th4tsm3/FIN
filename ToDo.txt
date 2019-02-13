@@ -1,0 +1,10 @@
+viene sempre triggerato il "mi dispiace non capisco" a seguire l'istruzione compresa
+verificare se necessari meccanismi di disambiguazione
+traduttore dei check: txs("chk_or_("io_narrante");
+
+_AND porta && sss INSIEME $$ _OR porta && sss INSIEME $$ _AND porta $$ sss DOPO $$ _OR porta $$ sss DOPO
+le risposte non sembrano correttissime!
+
+~riga 400 di framework la logica e` da rivedere
+ci sono delle risposte msg(... non capito errate!
+

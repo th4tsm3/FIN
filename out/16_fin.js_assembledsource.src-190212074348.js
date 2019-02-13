@@ -87,9 +87,8 @@ var FIN_framework = {
          4600
     ],
     test_instructions : [
-        "chk_and",
-        "chk_or_"
-    ]
+        "check_an",
+        "check_or"
 };
 
 //
@@ -610,6 +609,77 @@ function execute_instructions(verb,whatobj,whatactions) {
 };
 
 //
+// ## instruction: removes an object from scope (does not destroy the object)
+//
+function rem(objt) {
+// ex: rem("casa");
+    debug_out(objt,2);
+    var ogg = objt.trim();
+    var undef;
+    if (typeof(eval(ogg))=="object"){
+        for (var i=0 ; i < eval(ogg.toLowerCase()).lnkFr.length ; i+=1) {
+            // removes lnkTo from any other linked-object
+            array_remove( ogg.toLowerCase() , eval(eval(ogg.toLowerCase()).lnkFr[i]).lnkTo );
+        }
+        // deletes lnkFrom of the object itself
+        eval(ogg.toLowerCase()).lnkFr = [];
+    }
+    else {
+        try {
+            eval(ogg);
+        }
+        catch(err){
+            trigger_error(FIN_localization.ERROR_RAW+" "+err.message+" eval >> "+ogg);
+        }
+    }
+    return;
+};
+
+//
+// ## instruction: object moving
+//
+function mov(stringofinstr) {
+// ex: mov("fungo, cappuccetto_rosso");
+    debug_out(stringofinstr,2);
+    var splitting = stringofinstr.split(',');
+    var ogg = $.trim(splitting[0]);
+    var dove = $.trim(splitting[1]);
+    var undef;
+    for (var i=0 ; i < eval(ogg.toLowerCase()).lnkFr.length ; i+=1) {
+        // removes link-to from any element found in link-from of the moved object
+        array_remove( ogg.toLowerCase() , eval(eval(ogg.toLowerCase()).lnkFr[i]).lnkTo );
+    }
+    // deletes link-from
+    eval(ogg.toLowerCase()).lnkFr = [];
+    if ( !(dove.toLowerCase() == "" || dove==undef) ) {
+        // new connection link-from/link-to setup
+        connetti(dove.toLowerCase(),ogg.toLowerCase());    
+    }
+    return;    
+};
+
+//
+// ## instruction: moves "player" special object
+//
+function plt(moveto) {
+    debug_out(moveto,2);
+    if ( eval(PLAYER.toLowerCase()).typ.indexOf("player") >= 0 ) {
+        mov(PLAYER+','+moveto);
+        // FOCUS special object manipulation, following player movement:
+        // important: modifies the point of view!
+        // current point of view is stored in the last position of the FOCUS.lnkTo array => substituted
+        FOCUS.lnkTo.pop();
+        FOCUS.lnkTo.push( moveto.toLowerCase() );
+        debug_out("NEW FOCUS: "+current_focus(), 2);
+        //FOCUS.lnkTo[FOCUS.lnkTo.length-1],2);
+        return;
+    }
+    else {
+        trigger_error(FIN_localization.ERROR_NOPLY);
+    }
+};
+
+//
 // ## find object-name (string)
 //
 function object_name(di) {
@@ -1013,41 +1083,27 @@ function command_input_manager(stringa,chiamante) {
     debug_out("FOUND-VERB: "+found_verb, 3);
     vettoreinput = elimina_elementi_ripetuti(vettoreinput);
     debug_out("INPUT CORRETTO E DEPURATO: "+vettoreinput+"/Verb: "+found_verb+" soglia: "+FIN_framework.UI_FIGURES[1], 3);
-    // STEP 5: looks for instructions linked to the verb for each identified object
+    // STEP 5: looks for actions linked to the verb for each identified object
     for (var i in vettoreinput) {
         if ( vettoreinput[i] !=false && found_verb!=false ) {
             // takes out the instruction from the object
             if ( typeof(vettoreinput[i][found_verb][0]) != "undefined" ) {
-            var taking = vettoreinput[i][found_verb].shift();
-                // substring to check the first characters (7)
-                if ( FIN_framework.test_instructions.indexOf( taking.substr(0,7).toLowerCase().trim() ) >=0 ) {
-					console.log("TEST INSTRUCTION");
-                    // a test instruction is immediately evaluated/executed
-//                    console.log(">",taking, taking.split('||'));
-                    if ( eval(taking) ) {
-						console.log("TRUE",taking);
-                        // true -> going on the next
-                        actions += vettoreinput[i][found_verb].shift();
-                    }
-                    else {
-						console.log("FALSE reinjecting",taking);
-                        // false -> reinjecting test instruction
-                        vettoreinput[i][found_verb].unshift( taking );
-                    }
-                    //actions=taking;
+////////////////////////////////
+var taking = vettoreinput[i][found_verb].shift();
+
+                actions += taking;
+                console.log(">",actions, taking.substr(0,8), FIN_framework.test_instructions);
+                if ( FIN_framework.test_instructions.indexOf( taking.substr(0,8) ) >=0 ) {
+                    // test instruction
+                    console.log("TEST");
+                    
                 }
-                else {
-					console.log("REGULAR INSTRUCTION");
-                    // regular instruction
-//                    eval(taking);
-//                    CRITTER.chores.push(taking);
-actions=taking;
-                }
-//                actions=taking;
+                ////////////////////////////////
             }
+
         }
         else {
-        // input not understood by the framework
+	    // input not understood by the framework
             msg(FIN_localization.UI_DONTUNDERSTAND);
             FIN_framework.INPUT_FAILED+=1;
             debug_out("INPUT_FAILED: "+FIN_framework.INPUT_FAILED,2);
@@ -1056,7 +1112,6 @@ actions=taking;
     }
     debug_out("VERB: "+found_verb+" V-INPUT: "+vettoreinput, 2);
     // instructions execution
-//    console.log(">>",actions.length,actions);
     if (actions.length > 0 && actions!="undefined") {
         // reset of fail-counter
         FIN_framework.INPUT_FAILED=0;
@@ -1851,18 +1906,23 @@ function remove_all_stored_data() {
 function rem(objt) {
 // ex: rem("casa");
     debug_out(objt,2);
-    var ogg = objt.trim().toLowerCase();
-//    var undef;
+    var ogg = objt.trim();
+    var undef;
     if (typeof(eval(ogg))=="object"){
-        for (var i=0 ; i < eval(ogg).lnkFr.length ; i+=1) {
+        for (var i=0 ; i < eval(ogg.toLowerCase()).lnkFr.length ; i+=1) {
             // removes lnkTo from any other linked-object
-            array_remove( ogg, eval(eval(ogg).lnkFr[i]).lnkTo );
+            array_remove( ogg.toLowerCase() , eval(eval(ogg.toLowerCase()).lnkFr[i]).lnkTo );
         }
         // deletes lnkFrom of the object itself
-        eval(ogg).lnkFr = [];
+        eval(ogg.toLowerCase()).lnkFr = [];
     }
     else {
-        trigger_error(FIN_localization.ERROR_RAW+" typeof >> "+ogg);
+        try {
+            eval(ogg);
+        }
+        catch(err){
+            trigger_error(FIN_localization.ERROR_RAW+" "+err.message+" eval >> "+ogg);
+        }
     }
     return;
 };
@@ -1874,18 +1934,18 @@ function mov(stringofinstr) {
 // ex: mov("fungo, cappuccetto_rosso");
     debug_out(stringofinstr,2);
     var splitting = stringofinstr.split(',');
-    var ogg = $.trim(splitting[0]).toLowerCase();
-    var dove = $.trim(splitting[1]).toLowerCase();
+    var ogg = $.trim(splitting[0]);
+    var dove = $.trim(splitting[1]);
     var undef;
-    for (var i=0 ; i < eval(ogg).lnkFr.length ; i+=1) {
+    for (var i=0 ; i < eval(ogg.toLowerCase()).lnkFr.length ; i+=1) {
         // removes link-to from any element found in link-from of the moved object
-        array_remove( ogg, eval(eval(ogg).lnkFr[i]).lnkTo );
+        array_remove( ogg.toLowerCase() , eval(eval(ogg.toLowerCase()).lnkFr[i]).lnkTo );
     }
     // deletes link-from
-    eval(ogg).lnkFr = [];
-    if ( !(dove == "" || dove==undef) ) {
+    eval(ogg.toLowerCase()).lnkFr = [];
+    if ( !(dove.toLowerCase() == "" || dove==undef) ) {
         // new connection setup
-        connetti(dove, ogg);    
+        connetti(dove.toLowerCase(),ogg.toLowerCase());    
     }
     return;    
 };
@@ -2640,10 +2700,7 @@ function clean_up_array(array) {
         return el.toLowerCase().trim() } );
 };
 
-//
-// ## test instrucion: at least one of the mentioned elements is visible
-//
-function chk_or_(names) {
+function check_or(names) {
     // names is translated to an array
     if ( names.indexOf(',')>0 ) {
         names = names.split(',');
@@ -2662,10 +2719,7 @@ function chk_or_(names) {
     return false;
 };
 
-//
-// ## test instrucion: all the mentioned elements are visible
-//
-function chk_and(names) {
+function check_an(names) {
     // names is translated to an array
     if ( names.indexOf(',')>0 ) {
         names = names.split(',');

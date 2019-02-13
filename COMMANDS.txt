@@ -1,0 +1,1 @@
+grep -ne '^function' -ne '^// *.*' ./fin/* | grep -v '//$' | tr -d '{' > ./current_functions.txt

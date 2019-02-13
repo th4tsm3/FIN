@@ -1,0 +1,312 @@
+./fin/0000_globals.js:2:// # global objects definitions
+./fin/0000_globals.js:5:// ## debug status
+./fin/0000_globals.js:7:// if DEBUG variable is not defined it is forced to '0' -> debug mode off
+./fin/0000_globals.js:8:// verbosity levels: 0 (off=production), 1-minimum, up to 5-maximum
+./fin/0000_globals.js:14:// ## main FIN object: framework
+./fin/0000_globals.js:96:// ## layout object
+./fin/0000_globals.js:98:// main page html structure and related definitions:
+./fin/0000_globals.js:99:// image zone (up) if present (see global variable)
+./fin/0000_globals.js:163:// ## basic FIN object constructor
+./fin/0000_globals.js:165:function fin_object(nome)
+./fin/0010_critter.js:2://  # CRITTER
+./fin/0010_critter.js:4:// The CRITTER manages sequential instructions execution
+./fin/0015_walker_TBD.js:2:// # The StoryWalker looks for all the possible playing paths
+./fin/0015_walker_TBD.js:6:// ## StoryWalker critters constructor
+./fin/0015_walker_TBD.js:8:// initial focus object and objects array are mandatory, id is optional (default value is 0, which forces a new id definition)
+./fin/0015_walker_TBD.js:12:// ## StoryWalker constructor
+./fin/0015_walker_TBD.js:13:// 
+./fin/0015_walker_TBD.js:21:// StoryWalkers collection with methods is added to the FIN_framework object
+./fin/0015_walker_TBD.js:65:// ## fuzzy decision maker: throws a die
+./fin/0015_walker_TBD.js:67:// parameter resembles the number of possibilities among we have to choose
+./fin/0015_walker_TBD.js:68:function take_decision(possibilities) 
+./fin/0015_walker_TBD.js:83:// ## deep copy
+./fin/0015_walker_TBD.js:85:// returns a deep copy of a json object
+./fin/0015_walker_TBD.js:86:function deep_copy(what)
+./fin/0015_walker_TBD.js:98:// debug
+./fin/0015_walker_TBD.js:99:function walkers()
+./fin/0020_listeners.js:2:// # listeners definitions
+./fin/0020_listeners.js:4:// ## listener: document.ready
+./fin/0020_listeners.js:6:// sets up display, prints "intro" text, etc.
+./fin/0020_listeners.js:51:// ## listener: mouse-click/touch
+./fin/0020_listeners.js:70:// ## listener: generic mouse-click/touch
+./fin/0020_listeners.js:72:// prevents text selection on double-click
+./fin/0020_listeners.js:82:// ## listener: keyboard-keypress
+./fin/0025_slowprinter.js:2:// # Special effects: text slow-print
+./fin/0030_framework.js:2:// # framework management functions
+./fin/0030_framework.js:5:// ## programmed instructions executioner
+./fin/0030_framework.js:7:// verb = verb type
+./fin/0030_framework.js:8:// whatobj = target objects (array)
+./fin/0030_framework.js:9:// whatactions = actions extracted from object
+./fin/0030_framework.js:10:function execute_instructions(verb,whatobj,whatactions) 
+./fin/0030_framework.js:32:// ## find object-name (string)
+./fin/0030_framework.js:34:function object_name(di) 
+./fin/0030_framework.js:47:// ## removes "undefined" elements from an array
+./fin/0030_framework.js:49:function elimina_indefiniti(vettore) 
+./fin/0030_framework.js:60:// ## removes multiple instances (uniq)
+./fin/0030_framework.js:62:function elimina_elementi_ripetuti(array) 
+./fin/0030_framework.js:73:// ##  in-scope objects list
+./fin/0030_framework.js:75:// builds the list of the objects currently in-scope
+./fin/0030_framework.js:76:function inscope_objs_list(oggetto) 
+./fin/0030_framework.js:77:// ex: console.log(inscope_objs_list( FOCUS ) );
+./fin/0030_framework.js:110:// ## synonim to object
+./fin/0030_framework.js:112:// looks for a word among synonims inside an array of objects
+./fin/0030_framework.js:113:function sinonimo_to_oggetto (parola,vettore) 
+./fin/0030_framework.js:127:// ## framework error signal
+./fin/0030_framework.js:129:// stops with custom message when a FIN framework error occurs
+./fin/0030_framework.js:130:function trigger_error(message) 
+./fin/0030_framework.js:141:// ## elements comparison
+./fin/0030_framework.js:143:function confronta(un,du) 
+./fin/0030_framework.js:144:// ex: confronta(oggettoa, oggettob)
+./fin/0030_framework.js:157:// ## verifies link-to presence in an object
+./fin/0030_framework.js:159:function verifica_lnkTo(oggetto, parola) 
+./fin/0030_framework.js:160:// ex: verifica_links(oggetto, "casa")
+./fin/0030_framework.js:167:// ## verifies link-from presence in an object
+./fin/0030_framework.js:169:function verifica_lnkFr(oggetto, parola) 
+./fin/0030_framework.js:170:// ex: verifica_links(oggetto, "casa")
+./fin/0030_framework.js:177:// ## defines a link from an object to another
+./fin/0030_framework.js:179:function connetti(da,a) 
+./fin/0030_framework.js:180:// ex: connetti("cestino","fungo")
+./fin/0030_framework.js:204:// ## removes an element from an array
+./fin/0030_framework.js:206:function array_remove(element,array) 
+./fin/0030_framework.js:218:// ## base sixtyfour decoder
+./fin/0030_framework.js:220:function basesixtyfourdecode(what)
+./fin/0030_framework.js:232://////////////////CLEANED UP UP TO HERE
+./fin/0030_framework.js:234:// ## story reset function
+./fin/0030_framework.js:236:// resets all object links and actions to what stated in the story file at the beginning
+./fin/0030_framework.js:237:function fin_story_reset()
+./fin/0030_framework.js:245://        console.log("CLEANING");
+./fin/0030_framework.js:278:// ## automatic execution of in-scope objects v_0 content
+./fin/0030_framework.js:280:function autoexec_v0s()
+./fin/0030_framework.js:298:// ## main interpreter function: from instruction to object-action
+./fin/0030_framework.js:300:function command_input_manager(stringa,chiamante) 
+./fin/0030_framework.js:497:// ## wrapper to retrieve current focus object name
+./fin/0030_framework.js:499:// ex: current_focus()
+./fin/0030_framework.js:500:function current_focus()
+./fin/0040_grammar.js:2:// # grammar
+./fin/0040_grammar.js:3:// 
+./fin/0040_grammar.js:4:// ## 2-words-alike?
+./fin/0040_grammar.js:5:function stima_similitudine(a,b) 
+./fin/0040_grammar.js:6:// ex: stima_similitudine("bosco","boschetto")
+./fin/0040_grammar.js:38:// ## word-changer
+./fin/0040_grammar.js:40:// tries to guess the most similar word
+./fin/0040_grammar.js:41:function correttore_parole (paroladacontrollare,dizionario,soglia) 
+./fin/0040_grammar.js:42:// ex: correttore_parole ("boxco",FIN_framework.DICTIONARY) >> bosco
+./fin/0040_grammar.js:70:// 
+./fin/0040_grammar.js:71:// ## substring substitution
+./fin/0040_grammar.js:73:// Mozilla: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/substring
+./fin/0040_grammar.js:74:function replaceString(trova, sostituisci, qui)  
+./fin/0050_interface.js:2:// # interface management functions
+./fin/0050_interface.js:4:// ## system message pseudo pop-up
+./fin/0050_interface.js:6:// "qna" parameter can be used to inject code to manage question and answer cases, timeout is measured in seconds
+./fin/0050_interface.js:7:// ex: qnacode = '<a onClick="\
+./fin/0050_interface.js:8://    $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]);\
+./fin/0050_interface.js:9://    ">Y</a>/<a onClick="\
+./fin/0050_interface.js:10://    $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]);\
+./fin/0050_interface.js:11://    ">N</a>'
+./fin/0050_interface.js:12:// timeout [sec]
+./fin/0050_interface.js:13:function system_popup(text, qnacode, timeout)
+./fin/0050_interface.js:42:// ## full-screen questioning
+./fin/0050_interface.js:44:// asks for activation of full-screen mode via system_popup (fullscreen requires user interaction)
+./fin/0050_interface.js:45:function toggleFull()
+./fin/0050_interface.js:51:// ## word highlighting
+./fin/0050_interface.js:53:// toggles word-highlighting or forces it to on/off (true/false)
+./fin/0050_interface.js:54:function toggle_wordhighlight(force)
+./fin/0050_interface.js:81:// ## shows or hides options pseudo-window
+./fin/0050_interface.js:83:function overlaywin_change(todo) 
+./fin/0050_interface.js:105:// ## overlaywin commands: change stylesheet
+./fin/0050_interface.js:107:function overlaywin_change_stylesheet(to) 
+./fin/0050_interface.js:145:// ## gets display info to adapt the elements to the current view
+./fin/0050_interface.js:147:function get_display_size() 
+./fin/0050_interface.js:168:// ## adds custom html tags a(wd or wdh) to the text to recognize word-click/touch
+./fin/0050_interface.js:170:function add_custom_html_tags( text , dizionario ) 
+./fin/0050_interface.js:202:// ## input-icons: verbs
+./fin/0050_interface.js:204:// ### verbs group 1
+./fin/0050_interface.js:206:function verb1 () 
+./fin/0050_interface.js:214:// ### verbs group 2
+./fin/0050_interface.js:216:function verb2 () 
+./fin/0050_interface.js:224:// ### verbs group 3
+./fin/0050_interface.js:226:function verb3 () 
+./fin/0050_interface.js:235:// ## realclock show or hide
+./fin/0050_interface.js:237:function toggle_realclock() 
+./fin/0050_interface.js:248:// TBD-TBC
+./fin/0050_interface.js:249:function right_UI_button() 
+./fin/0050_interface.js:260:// ## cleans up input space
+./fin/0050_interface.js:262:function clr() 
+./fin/0050_interface.js:270:// ## feedback string visualization
+./fin/0050_interface.js:272:function msg(text) 
+./fin/0050_interface.js:280:// ## real-clock updater
+./fin/0050_interface.js:282:function clock_update() 
+./fin/0050_interface.js:300:// ## identifies click/touch on a word in the text stream (works with tags)
+./fin/0050_interface.js:302:function pick_a_word(arg) 
+./fin/0050_interface.js:325:// ## adjusts UI for the keyboard input
+./fin/0050_interface.js:327:function adjust_for_keyb() 
+./fin/0050_interface.js:341:// ## adjusts UI for the touch input
+./fin/0050_interface.js:343:function adjust_for_touch()
+./fin/0050_interface.js:355:// ## font set increase
+./fin/0050_interface.js:357:function font_increase()
+./fin/0050_interface.js:368:// ## font set decrease
+./fin/0050_interface.js:370:function font_decrease()
+./fin/0050_interface.js:381:// ## sets content of the overlaywin with some visual effects
+./fin/0050_interface.js:383:function set_overlay_content(what)
+./fin/0050_interface.js:391:// ## cleans all the output areas
+./fin/0050_interface.js:393:function outputarea_cleanup() 
+./fin/0050_interface.js:399:// ## initial UI building and tuning
+./fin/0050_interface.js:401:function bootstrap_UI_setup() 
+./fin/0050_interface.js:420:// ## wraps all dynamic setups of the graphical layout
+./fin/0050_interface.js:422:function layout_setup() 
+./fin/0050_interface.js:435:// ## get all defined CSS selectors
+./fin/0050_interface.js:437:// useful to implement checks on css rules definition
+./fin/0050_interface.js:438:function getAllCssSelectors() 
+./fin/0050_interface.js:450:// ## sound play manager
+./fin/0050_interface.js:452:function play_sound(soundobject) 
+./fin/0050_interface.js:453:// html must contain:
+./fin/0050_interface.js:454:// <embed src="piece.wav" autostart="false" width="0" height="0" id="sound1" enablejavascript="true" enablejavascript="true"/>
+./fin/0050_interface.js:471:// ## toggles audioplayer html5 standard interface visualization
+./fin/0050_interface.js:473:function toggle_audioplayer()
+./fin/0050_interface.js:491:// ## overlaywin tab switcher
+./fin/0050_interface.js:493:function overlay_tab(what)
+./fin/0060_storage.js:6:// Store current user
+./fin/0060_storage.js:9:// Get current user
+./fin/0060_storage.js:12:// Remove current user
+./fin/0060_storage.js:15:// Clear all keys
+./fin/0060_storage.js:18:// Loop over all stored values
+./fin/0060_storage.js:24:// stores some data in browser
+./fin/0060_storage.js:25:function store_data_in_browser(thing, content)
+./fin/0060_storage.js:36:// recalls data (settings or bookmark)
+./fin/0060_storage.js:37:function recall_data_in_browser(thing)
+./fin/0060_storage.js:49:// recalls FIN bookmark
+./fin/0060_storage.js:50:function overlaywin_restore() 
+./fin/0060_storage.js:61:// saves FIN bookmark
+./fin/0060_storage.js:62:function overlaywin_savegame() 
+./fin/0060_storage.js:71:// saves FIN settings
+./fin/0060_storage.js:72:function overlaywin_savesettings() 
+./fin/0060_storage.js:100:// recalls FIN settings
+./fin/0060_storage.js:101:function recall_settings() 
+./fin/0060_storage.js:150:function remove_all_stored_data() 
+./fin/0070_instructions.js:2:// # framework: instructions
+./fin/0070_instructions.js:6:// ## instruction: removes an object from scope (does not destroy the object)
+./fin/0070_instructions.js:8:function rem(objt) 
+./fin/0070_instructions.js:9:// ex: rem("casa");
+./fin/0070_instructions.js:33:// ## instruction: object moving
+./fin/0070_instructions.js:35:function mov(stringofinstr) 
+./fin/0070_instructions.js:36:// ex: mov("fungo, cappuccetto_rosso");
+./fin/0070_instructions.js:56:// ## instruction: moves "player" special object => modifies FOCUS link
+./fin/0070_instructions.js:58:function plt(moveto) 
+./fin/0070_instructions.js:75:// ## instruction: graphics/image changer
+./fin/0070_instructions.js:76:function img(imgPath)
+./fin/0070_instructions.js:77:// TBD
+./fin/0070_instructions.js:82://// instruction: inserisce una immagine TBD
+./fin/0070_instructions.js:83:function imgOLD(im,pc,SizeAndPlacement) 
+./fin/0070_instructions.js:92://// instruction: writes text in the "FIN_layout.placeholder" without any effect
+./fin/0070_instructions.js:93:function txt(text)
+./fin/0070_instructions.js:95://TBD    text = "<p>" + text + "</p>";
+./fin/0070_instructions.js:96://    text = "<br>" + text;
+./fin/0070_instructions.js:106:// ### instruction: writes text in the "FIN_layout.placeholder": slow-printing
+./fin/0070_instructions.js:108:function txs(text)
+./fin/0070_instructions.js:110://    text = "<p>" + text + "</p>";
+./fin/0070_instructions.js:111://    text = "<br>" + text;
+./fin/0070_instructions.js:140:// da rivedere gli altri print:!!! TBD
+./fin/0070_instructions.js:141://// instruction: writes text in the "FIN_layout.placeholder": fade-in
+./fin/0070_instructions.js:142:function txf(text)
+./fin/0070_instructions.js:143://TBD    text = "<p>" + text + "</p>";
+./fin/0070_instructions.js:144://    text = "<br>" + text;
+./fin/0070_instructions.js:154://  OLD      $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function()
+./fin/0070_instructions.js:156://            $(FIN_layout.previously).append(ics);
+./fin/0070_instructions.js:169://// instruction: chapter/story end with text output and link to following (optional)
+./fin/0070_instructions.js:170:// TBD
+./fin/0070_instructions.js:171:function end(what)
+./fin/0070_instructions.js:194://// instruction: executes "raw" javascript code (for "count" times) - it's not possible to use " but only '
+./fin/0070_instructions.js:195://function raw(cosa,count) 
+./fin/0070_instructions.js:196:function raw(what)
+./fin/0070_instructions.js:225://// instruction: replaces synonims to verb objects
+./fin/0070_instructions.js:226:function vr0(what)
+./fin/0070_instructions.js:228://ex: vr0("do, doing")
+./fin/0070_instructions.js:229://    var newarray=[];
+./fin/0070_instructions.js:246:function vr1(what)
+./fin/0070_instructions.js:248://ex: vr1("do, doing")
+./fin/0070_instructions.js:249://    var newarray=[];
+./fin/0070_instructions.js:266:function vr2(what)
+./fin/0070_instructions.js:268://ex: vr2("do, doing")
+./fin/0070_instructions.js:286:function vr3(what)
+./fin/0070_instructions.js:288://ex: vr3("do, doing")
+./fin/0070_instructions.js:289://    var newarray=[];
+./fin/0070_instructions.js:307:// commute state of an object: open/closed
+./fin/0070_instructions.js:308:function com(objn) 
+./fin/0070_instructions.js:318:// ## play a sound
+./fin/0070_instructions.js:320:function pas(soundfile)
+./fin/0080_debug.js:1:// # debugger functions
+./fin/0080_debug.js:4://// TBD prova
+./fin/0080_debug.js:5:function prova() 
+./fin/0080_debug.js:7://TBD    document.onclick.stopPropagation();
+./fin/0080_debug.js:11://// pulsante TRY
+./fin/0080_debug.js:12:function try_button() 
+./fin/0080_debug.js:13:/// TBD
+./fin/0080_debug.js:30:// ## Special button for DEBUG purposes
+./fin/0080_debug.js:32:function DEBUGGER_button() 
+./fin/0080_debug.js:43://// debug snippet frpom the web
+./fin/0080_debug.js:44:////from: http://jsfiddle.net/bladnman/EhUm3/ TBD
+./fin/0080_debug.js:47:function callerName() 
+./fin/0080_debug.js:72:function trim(inString) 
+./fin/0080_debug.js:76:function getStringValue(inString) 
+./fin/0080_debug.js:89:function fLeft(inText, delim) 
+./fin/0080_debug.js:100:function fLeftBack(inText, delim) 
+./fin/0080_debug.js:109:function fRight(inText, delim) 
+./fin/0080_debug.js:120:function fRightBack(inText, delim) 
+./fin/0080_debug.js:129:function fBetween(inText, delimLeft, delimRight) 
+./fin/0080_debug.js:133:function isNoE(obj) 
+./fin/0080_debug.js:137:function isNullOrEmpty(obj) 
+./fin/0080_debug.js:156:// ## opens a secondary window to output log files etc
+./fin/0080_debug.js:159:function open_secondary_window()
+./fin/0080_debug.js:177:// writes a line of text in the secondary window (SecondaryWindow)
+./fin/0080_debug.js:178:function write_in_secondary_window(what)
+./fin/0080_debug.js:189:// prints debug information if DEBUG global variable is set >0 (see DEBUG) to the console
+./fin/0080_debug.js:190:function debug_out(it,verbosity)
+./fin/0080_debug.js:200://// funzione che scrive nella finestra di stream di testo TBD
+./fin/0080_debug.js:201:// ora non usata
+./fin/0080_debug.js:202:function to_stream(what) 
+./fin/0080_debug.js:207://// WATCH per un oggetto
+./fin/0080_debug.js:208:function ispeziona_oggetto(ogg) 
+./fin/0080_debug.js:212://// ispeziona tutti gli oggetti definiti
+./fin/0080_debug.js:213:function ispeziona_allobjects(vettogg) 
+./fin/0080_debug.js:217://            debug_out( vettogg[i].syn[0],1 );
+./fin/0080_debug.js:224:// inspection of the in-scope objects
+./fin/0080_debug.js:225:function ispeziona_scope (oggpart) 
+./fin/0080_debug.js:230://        ispeziona_oggetto(eval(objs[i]));
+./fin/0080_debug.js:235:// inspection of current verbs synonims
+./fin/0080_debug.js:236:function ispeziona_verbi() 
+./fin/0080_debug.js:249://POSIZIONE PLAYER TBD
+./fin/0080_debug.js:250:function POS() 
+./fin/0100_graphics.js:1:// image (<img> tag) fade-out / fade-in effect TBD
+./fin/0100_graphics.js:2:function change_image(sourceimg) 
+./fin/0100_graphics.js:23://// setup dynamic image size
+./fin/0100_graphics.js:24:function setup_image(verticalfraction)
+./fin/0100_graphics.js:28://        $("body").prepend('<div id="imagezonecontainer" style="max-width:100%;max-height:100%;width:auto;height:auto;z-index:9;margin-left:auto;margin-right:auto;display:none"/> <img id="imagezone" style="max-width:100%;max-height:100%;width:auto;height:auto;z-index:10;margin-left: auto;margin-right: auto;opacity: 1;" src=""></div> </div>');
+./fin/0100_graphics.js:44://// drawImageOnCanvas("http://photojournal.jpl.nasa.gov/jpeg/PIA17555.jpg")
+./fin/0100_graphics.js:45:// img.src = "http://photojournal.jpl.nasa.gov/jpeg/PIA17555.jpg";drawImage();
+./fin/0100_graphics.js:46:// $(imagezonecontainer).css('width').split('px')[0]
+./fin/0100_graphics.js:47:// $(imagezonecontainer).css('height').split('px')[0]
+./fin/0100_graphics.js:48://https://stackoverflow.com/questions/10841532/canvas-drawimage-scaling
+./fin/0100_graphics.js:49:function drawImageOnCanvas(source) // TBD
+./fin/0100_graphics.js:79://    context.drawImage(imageObj, 0, 0, imageObj.naturalWidth, imageObj.naturalHeight, 0,0, imgWidth*20, imgHeight*20);
+./fin/0100_graphics.js:80://    context.drawImage(imageObj, 0, 0, imageObj.naturalWidth, imageObj.naturalHeight, 0,0, imgWidth*10, imgHeight*10);
+./fin/0100_graphics.js:81://    context.drawImage(imageObj, 0, 0, imageObj.naturalWidth, imageObj.naturalHeight, 0,0, imgWidth*5, imgHeight*5);
+./fin/0140_other.js:4://-// verb synonims substitutor TBD USATO?
+./fin/0140_other.js:5:// es: verb_substitution("1, fare") >> v_1.syn = ["disfare"] >> ["fare"]
+./fin/0140_other.js:6:function verb_substitution(what) 
+./fin/0150_bootstrap.js:2:// # FIN bootstrap
+./fin/0150_bootstrap.js:5:// ## preliminary instructions
+./fin/0150_bootstrap.js:7:// sets page title => story title
+./fin/0150_bootstrap.js:11:// ## default verbs are linked to the FOCUS
+./fin/0150_bootstrap.js:17:// object cloning via jquery method to remember the starting point (for the "story resolver") TBD
+./fin/0150_bootstrap.js:19:// decoding objectsDefinition content
+./fin/0150_bootstrap.js:20:// TBD bootstrap.js
+./fin/0150_bootstrap.js:22:// if the type is object it means that JSON has already been recognized
+./fin/0150_bootstrap.js:26:// first loop run: building objects
+./fin/0150_bootstrap.js:36:// checks if default verb objects exist
+./fin/0150_bootstrap.js:40:// second loop run: adding attributes to objects: types, links, synonims, ... 
+./fin/0150_bootstrap.js:85:// setting specific story name identifier (prefix + 6 letters substring + _settings/_bookmark)
+./fin/0300_WORKING.js:1:function clean_up_array(array)  
+./fin/0300_WORKING.js:7:// ## test instrucion: at least one of the mentioned elements is visible
+./fin/0300_WORKING.js:9:function chk_or_(names) 
+./fin/0300_WORKING.js:29:// ## test instrucion: all the mentioned elements are visible
+./fin/0300_WORKING.js:31:function chk_and(names) 

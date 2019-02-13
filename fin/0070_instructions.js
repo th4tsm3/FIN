@@ -8,23 +8,18 @@
 function rem(objt) {
 // ex: rem("casa");
     debug_out(objt,2);
-    var ogg = objt.trim();
-    var undef;
+    var ogg = objt.trim().toLowerCase();
+//    var undef;
     if (typeof(eval(ogg))=="object"){
-        for (var i=0 ; i < eval(ogg.toLowerCase()).lnkFr.length ; i+=1) {
+        for (var i=0 ; i < eval(ogg).lnkFr.length ; i+=1) {
             // removes lnkTo from any other linked-object
-            array_remove( ogg.toLowerCase() , eval(eval(ogg.toLowerCase()).lnkFr[i]).lnkTo );
+            array_remove( ogg, eval(eval(ogg).lnkFr[i]).lnkTo );
         }
         // deletes lnkFrom of the object itself
-        eval(ogg.toLowerCase()).lnkFr = [];
+        eval(ogg).lnkFr = [];
     }
     else {
-        try {
-            eval(ogg);
-        }
-        catch(err){
-            trigger_error(FIN_localization.ERROR_RAW+" "+err.message+" eval >> "+ogg);
-        }
+        trigger_error(FIN_localization.ERROR_RAW+" typeof >> "+ogg);
     }
     return;
 };
@@ -36,18 +31,18 @@ function mov(stringofinstr) {
 // ex: mov("fungo, cappuccetto_rosso");
     debug_out(stringofinstr,2);
     var splitting = stringofinstr.split(',');
-    var ogg = $.trim(splitting[0]);
-    var dove = $.trim(splitting[1]);
+    var ogg = $.trim(splitting[0]).toLowerCase();
+    var dove = $.trim(splitting[1]).toLowerCase();
     var undef;
-    for (var i=0 ; i < eval(ogg.toLowerCase()).lnkFr.length ; i+=1) {
+    for (var i=0 ; i < eval(ogg).lnkFr.length ; i+=1) {
         // removes link-to from any element found in link-from of the moved object
-        array_remove( ogg.toLowerCase() , eval(eval(ogg.toLowerCase()).lnkFr[i]).lnkTo );
+        array_remove( ogg, eval(eval(ogg).lnkFr[i]).lnkTo );
     }
     // deletes link-from
-    eval(ogg.toLowerCase()).lnkFr = [];
-    if ( !(dove.toLowerCase() == "" || dove==undef) ) {
+    eval(ogg).lnkFr = [];
+    if ( !(dove == "" || dove==undef) ) {
         // new connection setup
-        connetti(dove.toLowerCase(),ogg.toLowerCase());    
+        connetti(dove, ogg);    
     }
     return;    
 };

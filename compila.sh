@@ -97,7 +97,7 @@ fi
 # ...
 
 echo
-echo "ASSEMBLING FIN:"
+echo "ASSEMBLING FIN"
 # static named output file
 cat $FINDIR/*.js > $OUTDIR/$FIN-$SERIAL.js
 #echo -e "Produced: $SRCDIR/$FIN"
@@ -111,7 +111,7 @@ filecheck $SRCDIR/$FINTITLE
 cat $SRCDIR/$FINTITLE > $OUTDIR/$OUTDOC
 echo -e "- serial: $SERIAL" >> $OUTDIR/$OUTDOC
 # extracts comments from source files
-cat $SRCDIR/$FIN | grep -e '^ *//' -e '^ *function' | tr -d '/' | tr -d '{' | sed 's:  *: :g' | sed 's:^ ::' | sed -z 's:\n:\n\n:g' >> $OUTDIR/$OUTDOC
+cat $SRCDIR/$FIN | grep '^ *//' | tr -d '/' | sed 's:  *: :g' | sed 's:^ ::' | sed -z 's:\n:\n\n:g' >> $OUTDIR/$OUTDOC
 #echo  >> $OUTDIR/$OUTDOC
 cat $TRANSLATOR/traduttore_nodejs.js | grep '^ *//' | tr -d '/' | sed 's:  *: :g' | sed 's:^ ::' | sed -z 's:\n:\n\n:g' >> $OUTDIR/$OUTDOC
 echo -e "Produced: '$OUTDIR/$OUTDOC'"
