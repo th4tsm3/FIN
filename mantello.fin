@@ -1,0 +1,90 @@
+
+# 2019-02-14 - prima prova
+
+story   Il mantello nell'oscurita`
+focus   atrio
+player  PG
+start   Affrettandoti nella piovosa notte di novembre, la vista delle luci sfavillanti dell'edificio dell'opera ti riallieta. E` sorprendente che non ci sia piu` gente, ma, ehi, che ti aspetti da un semplice giochino dimostrativo...? ]] Ti trovi in un atrio spazioso, splendidamente decorato in rosso e oro, con candelabri luccicanti appesi alla volta. L'entrata principale si trova a nord, ci sono porte che conducono a sud e ad ovest. && vr1 x, esamina, guarda, osserva, ispeziona, leggi, scruta && vr2 vai, spostati, raggiungi, cammina, va && vr3 rompi, spezza, spacca, cancella, stacca
+
+
+# verbi:
+#1
+#x, esamina, guarda, osserva, ispeziona, leggi, scruta
+#2
+#vai, spostati, raggiungi, cammina, va
+#3
+#rompi, spezza, spacca, cancella, stacca
+
+e   PG
+1 Bello come al solito.
+x
+
+e   atrio
+L PG, nord, sud, ovest, volta
+x
+
+e   volta
+s soffitto, candelabri, cielo, alto, luci, lampadari
+1 Dalla volta pendono candelabri luccicanti.
+2 Il soffitto e` troppo distante.
+x
+
+
+# fuori
+e   nord
+s   fuori, via, casa, ritirati
+1 Sei appena arrivato, ed inoltre, il tempo fuori sta peggiorando.
+2 Sei appena arrivato, ed inoltre, il tempo fuori sta peggiorando.
+x
+
+# bar
+e   sud
+s   bar
+x
+
+# spogliatoio
+e   ovest
+x
+
+
+e   opera
+x
+
+e   mantello
+x
+
+# ----
+
+Le pareti di questa piccola stanza una volta erano piene di ganci, ora ne rimane soltanto uno.
+
+L'unica uscita e` una porta a est.
+
+Il bar, piu` sobrio di quanto ti saresti aspettato dopo l'opulenza dell'ingresso a nord, e` completamente vuoto. Sembra esserci una sorta di messaggio scarabocchiato nella segatura sul pavimento.
+
+E` buio pesto qui, non riesci a vedere nulla.
+
+Arrancare nel buio non e` una buona idea!
+
+Nel buio? Potresti facilmente disturbare... qualcosa!
+
+E' un piccolo gancio d'ottone
+ con un mantello appeso.
+ avvitato alla parete.
+
+Sul piccolo gancio d'ottone c'e` un mantello di velluto.
+
+C'e` un mantello di velluto nero qui.
+
+Un bellissimo mantello, velluto rifinito con seta e leggermente spruzzato di gocce di pioggia. Il nero e` cosi` profondo che quasi sembra assorbire la luce nella stanza.
+
+Non e` il posto migliore per lasciare un mantello.
+
+
+Qui non c'e` nulla a cui poterlo appendere.
+
+Hai appeso il mantello.
+
+Il messaggio, vergato con cura nella segatura, dice...
+ Il messaggio e` stato incautamente calpestato, rendendolo quasi illeggibile.  Riesci a malapena a distinguere le parole... Hai perso!
+
+

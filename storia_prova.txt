@@ -36,8 +36,11 @@ x
 e scatola1
 s scatola
 T closed
-1  _AND porta && sss INSIEME $$ _OR porta && sss INSIEME $$ _AND porta $$ sss DOPO $$ _OR porta $$ sss DOPO
-2 Dentro ce n'e` un'altra... 2
+0 Qui c'e` una scatola.
+1 _AND porta, porcellino && sss INSIEME1 $$ sss SUBITOQUI1 $$ _OR porta, porcellino && sss INSIEME2 $$ sss SUBITOQUI2 $$ _AND porta $$ sss DOPO $$ _OR porta $$ sss DOPOLAST
+# ok 
+2 _AND forta && sss INSIEME1 $$ sss SUBITOQUI1 $$ _OR forta && sss INSIEME2 $$ sss SUBITOQUI2 $$ _AND forta $$ sss DOPO $$ _OR forta $$ sss DOPOLAST
+# 
 # L scatola2
 x
 
