@@ -51,7 +51,7 @@ function mov(stringofinstr) {
 // ## instruction: moves "player" special object => modifies FOCUS link
 //
 function plt(moveto) {
-    debug_out(moveto,2);
+    debug_out(PLAYER+" -> "+moveto,2);
     if ( eval(PLAYER.toLowerCase()).typ.indexOf("player") >= 0 ) {
         mov(PLAYER+','+moveto);
         // FOCUS manipulation, following player movement:
@@ -337,6 +337,59 @@ function pas(soundfile){
     }
     catch(err){
         trigger_error(FIN_localization.ERROR_NOTFOUND+'\n'+sound);
+    }
+};
+
+//
+// ## test instrucion: at least one of the mentioned elements is visible
+//
+// executes next instruction in the same action if verified
+function chk_or_(names) {
+    // names is translated to an array
+    if ( names.indexOf(',')>0 ) {
+        names = names.split(',');
+    }
+    else {
+        names = [ names ];
+    }
+    names = clean_up_array(names);
+    var list_to_be_checked = inscope_objs_list(FOCUS);
+    for (nm in names) {
+        console.log(names[nm], list_to_be_checked);
+        if ( list_to_be_checked.indexOf( names[nm] ) >=0 ) {
+            FIN_framework.test_truefalse = true;
+            return true;
+        }
+    }
+    return false;
+};
+
+//
+// ## test instrucion: all the mentioned elements are visible
+//
+// executes next instruction in the same action if verified
+function chk_and(names) {
+    // names is translated to an array
+    if ( names.indexOf(',')>0 ) {
+        names = names.split(',');
+    }
+    else {
+        names = [ names ];
+    }
+    names = clean_up_array(names);
+    var all = names.length;
+    var list_to_be_checked = inscope_objs_list(FOCUS);
+    for (var i=0; i<names.length; i++) {
+        if ( list_to_be_checked.indexOf( names[i] ) >=0 ) {
+            all-=1;
+        }
+    }
+    if (all>0) {
+        return false;
+    }
+    else {
+        FIN_framework.test_truefalse = true;
+        return true;
     }
 };
 

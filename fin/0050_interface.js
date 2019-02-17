@@ -326,7 +326,8 @@ function pick_a_word(arg) {
 //
 function adjust_for_keyb() {
     debug_out("ADJUST UI FOR KEYBOARD, "+FIN_framework.UI_INPUT,3);
-    if (FIN_framework.UI_INPUT=="keyboard") {
+    // "...-only" means it is "locked"
+    if (FIN_framework.UI_INPUT=="keyboard" || FIN_framework.UI_INPUT.substr(FIN_framework.UI_INPUT.length-5,FIN_framework.UI_INPUT.length) == "-only" ) {
         return;
     }
     // hides icons & show FIN_layout.inputstring
@@ -342,7 +343,8 @@ function adjust_for_keyb() {
 //
 function adjust_for_touch(){
     debug_out("ADJUST UI FOR TOUCH, "+FIN_framework.UI_INPUT,3);
-    if (FIN_framework.UI_INPUT=="touch") {
+    // "...-only" means it is "locked"
+    if (FIN_framework.UI_INPUT=="touch" || FIN_framework.UI_INPUT.substr(FIN_framework.UI_INPUT.length-5,FIN_framework.UI_INPUT.length) == "-only" ) {
         return;
     }
     $(FIN_layout.reqtxtinput).show("slow","swing");

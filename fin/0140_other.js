@@ -1,5 +1,11 @@
 
-
+//
+// ## array cleaner
+//
+function clean_up_array(array) { 
+    return array.map( function(el) {
+        return el.toLowerCase().trim() } );
+};
 
 //-// verb synonims substitutor TBD USATO?
 // es: verb_substitution("1, fare") >> v_1.syn = ["disfare"] >> ["fare"]

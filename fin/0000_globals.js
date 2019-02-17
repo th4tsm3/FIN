@@ -15,7 +15,7 @@ if (typeof(DEBUG)=="undefined") {
 //
 var FIN_framework = {
     // version build
-    version : "FIN 1-Goldfish",
+    version : "FIN 1.1-Goldfish",
     // Flag to be raised when FIN is printing on-screen
     printing : false,
     verbs_attr : ['v_0','v_1','v_2','v_3'],
@@ -50,7 +50,7 @@ var FIN_framework = {
     ALLOBJECTS : [],
     // specific story name identifier (prefix + 6 letters substring + _settings/_bookmark): STORY_STORAGE
     STORY_STORAGE : "",
-    // default input method (for the UI startup): keyboard, touch, (system)
+    // default input method (for the UI startup): keyboard, touch, (system), keyboard-only, touch-only
     UI_INPUT : "keyboard",
     // when set to "false" locks interface input methods (after fatal error for example)
     UI_ENABLED : true,
@@ -89,7 +89,9 @@ var FIN_framework = {
     test_instructions : [
         "chk_and",
         "chk_or_"
-    ]
+    ],
+    test_truefalse : false,
+    secondary_window : false
 };
 
 //

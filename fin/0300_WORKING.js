@@ -1,54 +1,32 @@
-function clean_up_array(array) { 
-    return array.map( function(el) {
-        return el.toLowerCase().trim() } );
-};
 
 //
-// ## test instrucion: at least one of the mentioned elements is visible
+// ## Special button for DEBUG purposes
 //
-function chk_or_(names) {
-    // names is translated to an array
-    if ( names.indexOf(',')>0 ) {
-        names = names.split(',');
-    }
-    else {
-        names = [ names ];
-    }
-    names = clean_up_array(names);
-    var list_to_be_checked = inscope_objs_list(FOCUS);
-    for (nm in names) {
-        console.log(names[nm], list_to_be_checked);
-        if ( list_to_be_checked.indexOf( names[nm] ) >=0 ) {
-            return true;
-        }
-    }
-    return false;
+function DEBUGGER_button() {
+    //raw("PROVAAAA");
+    debug_out("DEBUG-BUTTON PRESSED:",2);
+    debug_out("FOCUS: << "+current_focus()+" >> "+FOCUS.lnkTo, 1);
+    debug_out("IN-SCOPE: "+inscope_objs_list(FOCUS), 2);
+    debug_out("DICTIONARY:"+FIN_framework.DICTIONARY, 3);
+    debug_out("FIN_framework.HISTORY INPUT: "+FIN_framework.HISTORY.input,4);
+    debug_out("FIN_framework.HISTORY DONE:"+FIN_framework.HISTORY.done,4);
 };
 
-//
-// ## test instrucion: all the mentioned elements are visible
-//
-function chk_and(names) {
-    // names is translated to an array
-    if ( names.indexOf(',')>0 ) {
-        names = names.split(',');
-    }
-    else {
-        names = [ names ];
-    }
-    names = clean_up_array(names);
-    var all = names.length;
-    var list_to_be_checked = inscope_objs_list(FOCUS);
-    for (var i=0; i<names.length; i++) {
-        if ( list_to_be_checked.indexOf( names[i] ) >=0 ) {
-            all-=1;          
-        }
-    }
-    if (all>0) {
-        return false;
-    }
-    else {
-        return true;
+function debug_force_out(x) {
+    console.log(x);
+};
+
+function inscope() {
+    let list=inscope_objs_list(FOCUS);
+    for (i in list) {
+        debug_force_out(i+" - "+list[i]);
+    };
+};
+
+function alldefinedobjects() {
+    let list=FIN_framework.ALLOBJECTS;
+    for (i in list) {
+        debug_force_out(i+" - "+object_name(list[i]));
     }
 };
 

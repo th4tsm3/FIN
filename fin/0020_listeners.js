@@ -19,10 +19,12 @@ $(document).ready(function() {
         if (bootstrap_UI_setup()) {
             // after a certain time removes the "curtain" (fader div) and gives the first output of the story
             setTimeout(function() {
-                if (FIN_framework.UI_INPUT=="keyboard"){
+                // interface: keyboard/keyboard-only [options: keyboard, touch, (system), keyboard-only, touch-only]
+                if (FIN_framework.UI_INPUT.substr(0,8)=="keyboard"){
                     adjust_for_keyb();
                 }
                 else {
+                // interface: touch/click
                     adjust_for_touch();
                 }
                 // layout fine tuning setup
@@ -122,6 +124,7 @@ $( document ).keydown(function(key) {
         open_secondary_window();
         return;
     }
+
     // after all key checks gives focus to FIN_layout.inputstring
     $(FIN_layout.inputstring).focus();
     // if FIN_layout.feedback is shown

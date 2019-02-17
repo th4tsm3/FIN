@@ -26,18 +26,30 @@ function try_button() {
     }
 };
 
+
 //
-// ## Special button for DEBUG purposes
+// ## secondary window opener
 //
-function DEBUGGER_button() {
-    //raw("PROVAAAA");
-    debug_out("DEBUG-BUTTON PRESSED:",2);
-    debug_out("FOCUS: << "+current_focus()+" >> "+FOCUS.lnkTo, 1);
-    debug_out("IN-SCOPE: "+inscope_objs_list(FOCUS), 2);
-    debug_out("DICTIONARY:"+FIN_framework.DICTIONARY, 3);
-    debug_out("FIN_framework.HISTORY INPUT: "+FIN_framework.HISTORY.input,4);
-    debug_out("FIN_framework.HISTORY DONE:"+FIN_framework.HISTORY.done,4);
+function open_secondary_window(){
+    if ( FIN_framework.secondary_window == false ) {
+        FIN_framework.secondary_window = window.open();
+        secondary_window_write(FIN_framework.version+": "+STORY);
+    }
 };
+
+//
+// ## secondary window writer
+//
+function secondary_window_write(whattowrite){
+    if ( FIN_framework.secondary_window == false ) {
+        open_secondary_window();
+    }
+    //$('#SECONDARYWIN').after('<br>'+whattowrite);
+    FIN_framework.secondary_window.document.write(whattowrite+"<br>");
+};
+
+
+
 
 /* ************************************ 
 //// debug snippet frpom the web
@@ -152,39 +164,6 @@ function isNullOrEmpty(obj) {
 
 /* ************************************************************************  */
 
-//
-// ## opens a secondary window to output log files etc
-//
-var secondary_window;
-function open_secondary_window(){
-    secondary_window = window.open('', '_blank');
-    if(typeof(secondary_window)!="undefined"){
-    // the browser has allowed the opening
-        
-        secondary_window.document.write('<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><title>FIN-LOG</title><style>body { padding:1em; } div { background-color: #eee; line-height: 1.3; font-family: Sans-Serif; padding: 2em; line-height: 1em; }</style></head><body><div if="logger"><h1>'+STORY+'</h1>'+FIN_framework.startingtime+'<br><br>');
-        //+'</div></body></html>');  << tags to be closed... TBD
-        for (var i in FIN_framework.HISTORY.raw) {
-			// puts current FIN_framework.HISTORY content in the window
-			write_in_secondary_window(FIN_framework.HISTORY.raw[i]);
-		}
-    }
-    else {
-        // the browser has blocked it
-        system_popup(FIN_localization.UI_MESSAGES.alertwarning);
-    }
-};
-
-// writes a line of text in the secondary window (SecondaryWindow)
-function write_in_secondary_window(what){
-    debug_out("SECONDARY: "+what,3);
-    try{
-        secondary_window.document.writeln(what+"<br>");
-    }
-    catch(err){
-        trigger_error(ERROR_NOTFOUND+" "+"SECONDARY-WIN");
-        // TBD
-    }
-};
 
 // prints debug information if DEBUG global variable is set >0 (see DEBUG) to the console
 function debug_out(it,verbosity){
@@ -192,7 +171,7 @@ function debug_out(it,verbosity){
     if (DEBUG >= verbosity) {
         console.log(callerName() +" >> "+it.toString());
     }
-    if (DEBUG >4){
+    if (FIN_framework.secondary_window != false){
         secondary_window_write(it);
     }
 };

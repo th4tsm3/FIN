@@ -110,7 +110,38 @@ function inscope_objs_list(oggetto) {
 // ## synonim to object
 //
 // looks for a word among synonims inside an array of objects
-function sinonimo_to_oggetto (parola,vettore) {
+function sinonimo_to_oggetto(parola,vettore, verbo=false) {
+    debug_out("sinonimo_to_oggetto "+parola+"/"+vettore+"/"+verbo,0);
+    var found = false;
+    for (elemento in vettore) {
+//console.log(elemento, eval(parola, vettore[elemento]). syn,verbo,eval(vettore[elemento]).v_1[verbo] );
+        if ( eval( vettore[elemento] ).syn.indexOf(parola) >= 0 ) {
+        	if ( verbo != false ) {
+            	if ( eval( vettore[elemento] )[verbo].length > 0 ) {
+            		found = eval( vettore[elemento] );
+            		break;
+        		}
+        		else {
+                    continue;
+                }
+            }
+            else {
+            	found = eval( vettore[elemento] );
+                break;
+            }
+        }
+    }
+    // returns the corresponding object
+    return found;
+};
+
+
+
+//
+// ## synonim to object
+//
+// looks for a word among synonims inside an array of objects
+function sinonimo_to_oggetto_old (parola,vettore) {
     debug_out("sinonimo_to_oggetto "+parola+"/"+vettore,3);
     var found = false;
     vettore.map( function (el) {
@@ -128,7 +159,8 @@ function sinonimo_to_oggetto (parola,vettore) {
 //
 // stops with custom message when a FIN framework error occurs
 function trigger_error(message) {
-	debug_out(callerName() +" >> "+"[!]", -1);
+    // always printed in console.
+    debug_out("ERROR "+ callerName() +" >> "+"[!]", -1);
     // stops UI input
     FIN_framework.UI_ENABLED = false;
     ////alert(FIN_localization.ERROR_FATAL+": "+message+"\nUI: "+FIN_framework.UI_ENABLED);
@@ -298,15 +330,16 @@ function autoexec_v0s(){
 // ## main interpreter function: from instruction to object-action
 //
 function command_input_manager(stringa,chiamante) {
+	var parola_oggetto;
     function parse_input_text( stringa , focus ) {
         if ( typeof(chiamante) == "undefined") {
             chiamante="doubleclick";
         }
         // records command history
         FIN_framework.HISTORY.raw.push(stringa+" / "+chiamante);
-        if(typeof(secondary_window)!="undefined"){
-			write_in_secondary_window("[ "+FIN_framework.TIMELINE+" ] "+stringa+" / "+chiamante);
-		}
+        if( FIN_framework.secondary_window != false ){
+            secondary_window_write("[ "+FIN_framework.TIMELINE+" ] "+stringa+" / "+chiamante);
+        }
         oggettiinscope = inscope_objs_list(focus);
         // STEP 1: looks for exact correspondance of composite words
         var filtering = stringa.replace(/["`:()]/g,' ').replace(/'/g," ");
@@ -314,7 +347,19 @@ function command_input_manager(stringa,chiamante) {
         var underscored = filtering.replace(/ /g,'__');
         debug_out("filtering received input: "+stringa+">>"+filtering+">>"+underscored,3);
         // first loop looks for composite words
+        ////???
         for (var i in oggettiinscope) {
+            for (var j in eval(oggettiinscope[i]).syn) {
+                if (eval(oggettiinscope[i]).typ.indexOf('verb')<0 && eval(oggettiinscope[i]).syn[j].match("_") != null) {
+                    if (underscored.match(eval(oggettiinscope[i]).syn[j].replace(/_/g,'__')) != null) {
+                        found_composite = eval(oggettiinscope[i]).syn[j];
+                        // "#" is used as a placeholder for a composite word
+                        underscored = replaceString(found_composite.replace(/_/g,'__'),"#",underscored);
+                    }
+				}
+			}
+                
+              /*  
             eval(oggettiinscope[i]).syn.forEach( function (el) {
                 if (eval(oggettiinscope[i]).typ.indexOf('verb')<0 && el.match("_")) {
                     if (underscored.match(el.replace(/_/g,'__'))) {
@@ -324,7 +369,9 @@ function command_input_manager(stringa,chiamante) {
                     }
                 }
             } );
+            */
         }
+        
         // STEP 2: corrects the wrong words
         var wk = underscored.split("__");
         wk = wk.map(
@@ -345,7 +392,8 @@ function command_input_manager(stringa,chiamante) {
         var ogg = false;
         var corretta = "";
         // "wk" contains the inputstring corrected and splitted in an array of words
-        if (DEBUG >4 && typeof(secondary_window)!="undefined") {
+        if (DEBUG >4 && typeof(FIN_framework.secondary_window)!="undefined") {
+			//// TBD verificarer che la window sia aperta!
             secondary_window_write("<i>>>"+stringa.toString()+"</i>");
         }
         wk = elimina_indefiniti(wk);
@@ -357,6 +405,7 @@ function command_input_manager(stringa,chiamante) {
                 debug_out("PAROLA COMPOSTA? "+found_composite+" "+corretta,3);
                 // looks for the corresponding object
                 ogg = sinonimo_to_oggetto (found_composite,oggettiinscope);
+                parola_oggetto = found_composite;
                 if ( ogg.typ.indexOf("verb") >= 0 ) {
                     found_verb = object_name(ogg);
                 }
@@ -370,6 +419,7 @@ function command_input_manager(stringa,chiamante) {
             else {
                 try {
                     ogg = sinonimo_to_oggetto(wk[i].trim(),oggettiinscope);
+                    parola_oggetto = wk[i].trim();
                     // if it's a verb
                     if ( ogg!=false && ogg.typ.indexOf("verb") >= 0 ) {
                         found_verb = object_name(ogg);
@@ -388,15 +438,16 @@ function command_input_manager(stringa,chiamante) {
                 break;
             }
         }
-    // >> now objs contains the object and found_verb the verb group
-    corretta = corretta.trim().replace(/#/,"");
-    debug_out("WATCH-correzione dell'input: "+corretta+" :V: "+found_verb+" soglia: "+FIN_framework.UI_FIGURES[1], 3);
-    if (chiamante=="keyboard" && FIN_framework.FEEDBACK_MESSAGE) {
-        msg( corretta );
-    }
-    return found_obj;
+        // >> now found_obj contains the object and found_verb the verb group
+        corretta = corretta.trim().replace(/#/,"");
+        debug_out("WATCH-correzione dell'input: "+corretta+" :V: "+found_verb+" soglia: "+FIN_framework.UI_FIGURES[1], 3);
+        if (chiamante=="keyboard" && FIN_framework.FEEDBACK_MESSAGE) {
+            msg( corretta );
+        }
+        return found_obj;
     }
 
+// TBD e` necessario?
     // verb icons "disabled"
     if (FIN_framework.UI_INPUT=="touch") {
         $(FIN_layout.verb_icons).fadeTo(FIN_framework.UI_FIGURES[3], FIN_framework.UI_FIGURES[4]);
@@ -406,16 +457,19 @@ function command_input_manager(stringa,chiamante) {
         trigger_error(FIN_localization.ERROR_INPUT);
     }
     debug_out(stringa+" << ["+chiamante+']',2);
-    var undef;
     var found_verb=false;
     var oggettiinscope = false;
     var found_composite = false;
     // pre-parsing: splitting multiple instructions
     // check if there is any grammatical separator: , . ;
     var tmp=false;
+    
+    ////??? TBD
     if ( /;|,|\./.test(stringa) ) {
         var tmp = stringa.replace(/;|\./g,",").split(',');
     }
+    
+    /////???
     if ( tmp ) {
         for (i in tmp) {
             debug_out("MULTIPLE INSTRUCTIONS "+i+": "+tmp[i],2);
@@ -423,50 +477,60 @@ function command_input_manager(stringa,chiamante) {
     }
 
     // the identified objects are stored here
-    vettoreinput = parse_input_text(stringa.toLowerCase(),FOCUS);
-    actions = "";
+    var vettoreinput = parse_input_text(stringa.toLowerCase(),FOCUS);
+    var actions = "";
     // default action: in case no verbs have been found -> v_1
     if (found_verb == false) {
         found_verb="v_1";
     }
+    
     debug_out("FOUND-VERB: "+found_verb, 3);
     vettoreinput = elimina_elementi_ripetuti(vettoreinput);
     debug_out("INPUT CORRETTO E DEPURATO: "+vettoreinput+"/Verb: "+found_verb+" soglia: "+FIN_framework.UI_FIGURES[1], 3);
     // STEP 5: looks for instructions linked to the verb for each identified object
     for (var i in vettoreinput) {
         if ( vettoreinput[i] !=false && found_verb!=false ) {
+
+
+				    //// HERE
+    // checks if the instruction content of the object is not empty, in this case looks for an analogous object
+    if ( vettoreinput[i][found_verb].length == 0 ) {
+	vettoreinput[i] = sinonimo_to_oggetto(parola_oggetto, inscope_objs_list(FOCUS), found_verb)
+	}
+    console.log(">>>>>>>>>>>>>>",parola_oggetto,found_verb);
+    //console.log( sinonimo_to_oggetto(parola_oggetto, inscope_objs_list(FOCUS), found_verb) );
+    
+
+
+         if ( vettoreinput[i] != false ) {
             // takes out the instruction from the object
             if ( typeof(vettoreinput[i][found_verb][0]) != "undefined" ) {
             var taking = vettoreinput[i][found_verb].shift();
                 // substring to check the first characters (7)
                 if ( FIN_framework.test_instructions.indexOf( taking.substr(0,7).toLowerCase().trim() ) >=0 ) {
-					console.log("TEST INSTRUCTION");
+                    debug_out("TEST INSTRUCTION",4);
                     // a test instruction is immediately evaluated/executed
-//                    console.log(">",taking, taking.split('||'));
-                    if ( eval(taking) ) {
-						console.log("TRUE",taking);
+                    eval(taking);
+                    if ( FIN_framework.test_truefalse ) {
                         // true -> going on the next
                         actions += vettoreinput[i][found_verb].shift();
+                        // FIN_framework.test_truefalse reset
+                        FIN_framework.test_truefalse = false;
                     }
                     else {
-						console.log("FALSE reinjecting",taking);
                         // false -> reinjecting test instruction
                         vettoreinput[i][found_verb].unshift( taking );
                     }
-                    //actions=taking;
                 }
                 else {
-					console.log("REGULAR INSTRUCTION");
                     // regular instruction
-//                    eval(taking);
-//                    CRITTER.chores.push(taking);
-actions=taking;
+                    actions=taking;
                 }
-//                actions=taking;
             }
+		 }
         }
         else {
-        // input not understood by the framework
+            // input not understood by the framework
             msg(FIN_localization.UI_DONTUNDERSTAND);
             FIN_framework.INPUT_FAILED+=1;
             debug_out("INPUT_FAILED: "+FIN_framework.INPUT_FAILED,2);
