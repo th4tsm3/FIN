@@ -161,7 +161,7 @@ function get_display_size() {
         parseInt( $(document).width() ),
         // 4 font-size
         txts
-        ];
+    ];
 };
 
 //
@@ -250,7 +250,7 @@ function right_UI_button() {
     adjust_for_keyb();
     // resets text in right UI button
     $(FIN_layout.reqtxtinput).html(FIN_layout.UI_TXTIN);
-    // resets text in input string space
+    // cleans up text in input string space
     $(FIN_layout.inputstring).val("");
 };
 
@@ -261,8 +261,10 @@ function right_UI_button() {
 //
 function clr() {
     if (FIN_framework.UI_ENABLED) {
+        // cleans up text in input string space
         $(FIN_layout.inputstring).val("");
-        $(FIN_layout.reqtxtinput).fadeOut(FIN_framework.UI_FIGURES[3], function(){ $(this).text(FIN_layout.UI_TXTIN).fadeIn(FIN_framework.UI_FIGURES[3]); });
+        // TBD necessario?
+        //$(FIN_layout.reqtxtinput).fadeOut(FIN_framework.UI_FIGURES[3], function(){ $(this).text(FIN_layout.UI_TXTIN).fadeIn(FIN_framework.UI_FIGURES[3]); });
     }
 };
 

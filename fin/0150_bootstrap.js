@@ -26,8 +26,7 @@ if ( typeof(objectsDefinition) != 'object' ) {
 // first loop run: building objects
 var it=0;
 for ( var ob in objectsDefinition ) {
-it+=1;
-console.log(it," 1 >>>>>",ob);
+    it+=1;
     var deffocus=false;
     var og = ob.toLowerCase();
     eval( "var " + og + ' = new fin_object("'+og+'");' );
@@ -42,7 +41,6 @@ if ( typeof(v_0)=="undefined" || typeof(v_1)=="undefined" || typeof(v_2)=="undef
 };
 // second loop run: adding attributes to objects: types, links, synonims, ... 
 for ( var o in objectsDefinition ) {
-console.log(" 2 >>>>>",ob);
     var og = o.toLowerCase();
     for ( var what in objectsDefinition[og] ) {
         // if the property is not yet defined it is added to the object

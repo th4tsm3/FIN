@@ -1,26 +1,9 @@
-/*
-store.js
-
-https://github.com/marcuswestin/store.js#user-content-basic-usage
-
-// Store current user
-store.set('user', { name:'Marcus' })
-
-// Get current user
-store.get('user')
-
-// Remove current user
-store.remove('user')
-
-// Clear all keys
-store.clearAll()
-
-// Loop over all stored values
-store.each(function(value, key) { console.log(key, '==', value)})
-
-store.each(function(value, key) {console.log(key, '==', value)})
-*/
-
+//
+// # Local Storage management
+//
+// ## store.js
+//
+// https://github.com/marcuswestin/store.js#user-content-basic-usage
 // stores some data in browser
 function store_data_in_browser(thing, content){
     try {
@@ -33,7 +16,9 @@ function store_data_in_browser(thing, content){
     }
 };
 
-// recalls data (settings or bookmark)
+//
+// ## recalls data (settings or bookmark)
+//
 function recall_data_in_browser(thing){
     debug_out(thing,3);
     var x = store.get(thing);
@@ -46,7 +31,9 @@ function recall_data_in_browser(thing){
     }
 };
 
-// recalls FIN bookmark
+//
+// ## recalls FIN bookmark
+//
 function overlaywin_restore() {
     debug_out("RESTORE-BOOKMARK",1);
     var form=FIN_framework.STORY_STORAGE+'_bookmarks';
@@ -58,7 +45,9 @@ function overlaywin_restore() {
     system_popup(FIN_localization.UI_MESSAGES.restoreok);
 };
 
-// saves FIN bookmark
+//
+// ## saves FIN bookmark
+//
 function overlaywin_savegame() {
     debug_out("SAVE-BOOKMARK",1);
     var form = FIN_framework.STORY_STORAGE+'_bookmarks';
@@ -68,7 +57,9 @@ function overlaywin_savegame() {
     system_popup(FIN_localization.UI_MESSAGES.saveok);
 };
 
-// saves FIN settings
+//
+// ## saves FIN settings
+//
 function overlaywin_savesettings() {
     debug_out("STORE SETTINGS",1);
     var str = [];
@@ -97,7 +88,9 @@ function overlaywin_savesettings() {
     system_popup( FIN_localization.UI_MESSAGES.settingssaved );
 };
 
-// recalls FIN settings
+//
+// ## recalls FIN settings
+//
 function recall_settings() {
     var form=FIN_framework.STORY_STORAGE+'_settings';
     // recalls
@@ -147,6 +140,9 @@ function recall_settings() {
     }, FIN_framework.UI_FIGURES[12]);
 };
 
+//
+// ## deletes all data in browser local storage (not only by FIN)
+//
 function remove_all_stored_data() {
     debug_out("clear storage");
     store.clearAll();

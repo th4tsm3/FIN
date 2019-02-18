@@ -8,7 +8,7 @@ function prova() {
 };
 
 
-//// pulsante TRY
+//// pulsante TRY TBD
 function try_button() {
 /// TBD
     debug_out("TRY BUTTON PRESSED",1);
@@ -34,6 +34,7 @@ function open_secondary_window(){
     if ( FIN_framework.secondary_window == false ) {
         FIN_framework.secondary_window = window.open();
         secondary_window_write(FIN_framework.version+": "+STORY);
+        secondary_window_write('<i>'+FIN_framework.startingtime+'</i>');
     }
 };
 
@@ -44,7 +45,6 @@ function secondary_window_write(whattowrite){
     if ( FIN_framework.secondary_window == false ) {
         open_secondary_window();
     }
-    //$('#SECONDARYWIN').after('<br>'+whattowrite);
     FIN_framework.secondary_window.document.write(whattowrite+"<br>");
 };
 
@@ -166,7 +166,7 @@ function isNullOrEmpty(obj) {
 
 
 // prints debug information if DEBUG global variable is set >0 (see DEBUG) to the console
-function debug_out(it,verbosity){
+function debug_out(it,verbosity) {
     //to_stream('</br><i style="font-size: 9pt;">'+it+'</i></br>');
     if (DEBUG >= verbosity) {
         console.log(callerName() +" >> "+it.toString());

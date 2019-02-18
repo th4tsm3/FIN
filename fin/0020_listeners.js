@@ -5,8 +5,8 @@
 //
 // sets up display, prints "intro" text, etc.
 $(document).ready(function() {
-	debug_out("document.ready",1);
-	var now = new Date;
+    debug_out("document.ready",1);
+    var now = new Date;
     FIN_framework.startingtime = now;
     // just for debug intents: adds special purpose interface button
     if (DEBUG > 1) {

@@ -67,28 +67,19 @@ function plt(moveto) {
     }
 };
 
+//
 // ## instruction: graphics/image changer
+//
 function img(imgPath){
 // TBD
     change_image(imgPath);
     return;
 };
 
-//// instruction: inserisce una immagine TBD
-function imgOLD(im,pc,SizeAndPlacement) {
-    if (typeof(SizeAndPlacement)=="undefined") {
-        SizeAndPlacement=30;
-    }
-    // TBD
-    $(FIN_layout.previously).append(FIN_localization.OUT_IMG_PREV+im+FIN_localization.OUT_IMG_MEDI+pc+FIN_localization.OUT_IMG_POST);
-    //$("#placeholder").append('</br><img src="'+im+'" class="el_fadein '+posizione+'" width="'+pc+'%"/></br>');
-};
-
-//// instruction: writes text in the "FIN_layout.placeholder" without any effect
+//
+// ## instruction: writes text in the "FIN_layout.placeholder" without any effect
+//
 function txt(text){
-    // paragraph form customization
-//TBD    text = "<p>" + text + "</p>";
-//    text = "<br>" + text;
     debug_out("txt: "+text+"/", 3);
     // prints without any effect
     $(FIN_layout.previously).append( '<br>'+add_custom_html_tags( text, FIN_framework.DICTIONARY ) );
@@ -98,75 +89,41 @@ function txt(text){
 };
 
 //
-// ### instruction: writes text in the "FIN_layout.placeholder": slow-printing
+// ### instruction: writes text in the "FIN_layout.placeholder": slow-printing effect
 //
 function txs(text){
-    // paragraph form customization
-//    text = "<p>" + text + "</p>";
-//    text = "<br>" + text;
     debug_out("txs: "+text+"/", 3);
     FIN_framework.printing= true;
-    // prints with slow-print
-
-/*    if(CRAWLER.working) {
-        txt(text);
-    }
-    else {
-*/
-        //txt('<br>');
-        slowPrinter.add(text);
-        slowPrinter.delay(FIN_framework.UI_FIGURES[6]);
-    /*}*/
-        
-    /*
-    if (typeof(CRAWLER)!="undefined") {
-        if(CRAWLER.working) {
-            txt(text);
-        }
-    }
-    else {
-        slowprinter_add(text);
-        slowprinter_delay(FIN_framework.UI_FIGURES[6]);
-    }
-    */
+    slowPrinter.add(text);
+    slowPrinter.delay(FIN_framework.UI_FIGURES[6]);
     return;
 };
 
-// da rivedere gli altri print:!!! TBD
-//// instruction: writes text in the "FIN_layout.placeholder": fade-in
+//
+// ## instruction: writes text in the "FIN_layout.placeholder": fade-in
+// TBD
 function txf(text){
 //TBD    text = "<p>" + text + "</p>";
 //    text = "<br>" + text;
     debug_out("txf: "+text+"/", 3);
     FIN_framework.printing= true;
-/*        if(CRAWLER.working) {
-        txt(text);
-    }
-
-    else {
-*/
-        var ics = '<br>'+add_custom_html_tags( text, FIN_framework.DICTIONARY );
-//  OLD      $(FIN_layout.placeholder).hide().html( text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
-        $(FIN_layout.placeholder).hide().html( '<br>'+text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
-//            $(FIN_layout.previously).append(ics);
-            $(FIN_layout.previously).append(ics);
-            $(FIN_layout.placeholder).html("");
-                // animated scroll-up effect
-            CRITTER.chores.push( "$('html, body').animate( { scrollTop: $(FIN_layout.upto).offset().top }, "+FIN_framework.UI_FIGURES[0]+")" );
-            FIN_framework.printing= false;          
-            CRITTER.runner(true);
-        });
-/*    }
-*/
+    var ics = '<br>'+add_custom_html_tags( text, FIN_framework.DICTIONARY );
+    $(FIN_layout.placeholder).hide().html( '<br>'+text ).fadeIn( FIN_framework.UI_FIGURES[5], function(){
+        $(FIN_layout.previously).append(ics);
+        $(FIN_layout.placeholder).html("");
+        // animated scroll-up effect
+        CRITTER.chores.push( "$('html, body').animate( { scrollTop: $(FIN_layout.upto).offset().top }, "+FIN_framework.UI_FIGURES[0]+")" );
+        FIN_framework.printing= false;          
+        CRITTER.runner(true);
+    });
     return;
 };
 
-//// instruction: chapter/story end with text output and link to following (optional)
+//
+// ## instruction: chapter/story end with text output and link to following (optional)
 // TBD
 function end(what){
-
     setTimeout( function(){
-
         txf('<div style="text-align:center; padding:3em;"><a href="'+what+'.html">'+what+'</a></div>');
         //TBD
         
@@ -186,8 +143,9 @@ function end(what){
     // << time to avoid messing up with the output stream
 };
 
-//// instruction: executes "raw" javascript code (for "count" times) - it's not possible to use " but only '
-//function raw(cosa,count) {
+//
+// ## instruction: executes "raw" javascript code (for "count" times) - it's not possible to use " but only '
+//
 function raw(what){
     debug_out(what,1);
     try {
@@ -195,29 +153,12 @@ function raw(what){
     }
     catch(err) {
         trigger_error(FIN_localization.ERROR_RAW+" "+err.message);
-    }            
-
-
-    /*
-    if (typeof(count) == "undefined") {
-        count=1;
-    }    
-    if ( cosa ) {
-        debug_out("EXECUTING RAW JS: "+cosa+"/"+count, 2);
-        try {
-            eval(cosa);
-        }
-        catch(err) {
-            trigger_error(FIN_localization.ERROR_RAW+" "+err.message);
-        }            
     }
-    else {
-        trigger_error(FIN_localization.ERROR_RAW);
-    }
-    */
 };
 
-//// instruction: replaces synonims to verb objects
+//
+// ## instruction: replaces synonims to verb objects
+//
 function vr0(what){
     // TBD verifiche!!!
 //ex: vr0("do, doing")
@@ -355,7 +296,6 @@ function chk_or_(names) {
     names = clean_up_array(names);
     var list_to_be_checked = inscope_objs_list(FOCUS);
     for (nm in names) {
-        console.log(names[nm], list_to_be_checked);
         if ( list_to_be_checked.indexOf( names[nm] ) >=0 ) {
             FIN_framework.test_truefalse = true;
             return true;
