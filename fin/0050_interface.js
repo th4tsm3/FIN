@@ -12,29 +12,29 @@
 // timeout [sec]
 function system_popup(text, qnacode, timeout){
     debug_out(text+" / "+timeout+ " / "+qnacode, 2);
-    // if already present (only one popup at a time can be present)
-    if ($(FIN_layout.sysmessage).css('display')!='none'){
-        $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[2]);
-        setTimeout( function (){'system_popup('+text+','+qnacode+', '+timeout+')', FIN_framework.UI_FIGURES[2]} );
-    }
-    if (FIN_layout.UI_OVERLAY) {
-        $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],FIN_framework.UI_FIGURES[4]);
-    }
     if (typeof(timeout) == 'undefined' ) {
         // default timeout is 30 seconds
         timeout = 30;
+    }
+    // if already present (only one popup at a time can be present) appends new text
+    if ($(FIN_layout.sysmessage).css('display')!='none') {
+        $(FIN_layout.sysmessage).append('<br>'+text);
+        return;
+    }
+    if (FIN_layout.UI_OVERLAY) {
+        $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],FIN_framework.UI_FIGURES[4]);
     }
     // if "qna" is "undefined" the window fades away (informative popup)
     if (typeof(qnacode) == 'undefined' ) {
         $(FIN_layout.sysmessage).html(text);
         $(FIN_layout.sysmessage).fadeIn(FIN_framework.UI_FIGURES[7]);
-        setTimeout('$(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) { $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) {$(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', FIN_framework.UI_FIGURES[12]);
+        FIN_layout.UI_popup = setTimeout('$(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) { $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) {$(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', FIN_framework.UI_FIGURES[12]);
         // ridondanza? TBD setTimeout('if $(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) { $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) {$(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', FIN_framework.UI_FIGURES[12]*2);
     }
     else {
         $(FIN_layout.sysmessage).html(text+'<br>'+qnacode);
         $(FIN_layout.sysmessage).fadeIn(FIN_framework.UI_FIGURES[7]);
-        setTimeout('$(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) { $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) {$(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', timeout*1000);
+        FIN_layout.UI_popup = setTimeout('$(FIN_layout.sysmessage).fadeOut(FIN_framework.UI_FIGURES[7]); if (FIN_layout.UI_OVERLAY) { $(overlaywin).fadeTo(FIN_framework.UI_FIGURES[7],1); if (FIN_layout.UI_OVERLAY) {$(overlaywin).fadeIn(FIN_framework.UI_FIGURES[7]);} }', timeout*1000);
     }
 };
 

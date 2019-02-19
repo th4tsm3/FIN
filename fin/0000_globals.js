@@ -59,19 +59,19 @@ var FIN_framework = {
     // ## UI timings and other figures
     //
     UI_FIGURES : [
-        // 0 / scrolling delay
+        //  0 / scrolling delay
          2700,
-        // 1 / word correction %
+        //  1 / word correction %
          50,
-        // 2 / max char length of input string
+        //  2 / max char length of input string
          100,
-        // 3 / fading time for verb icons
+        //  3 / fading time for verb icons
          500,
-        // 4 / non-active UI object opacity
+        //  4 / non-active UI object opacity
          0.4,
-        // 5 / text fade-in effect delay
+        //  5 / text fade-in effect delay
          2200,
-        // 6 / ms delay for putchar in slow-print
+        //  6 / ms delay for putchar in slow-print
          27,
         //  7 / ms delay for message fade-in & fade-out
          1500,
@@ -155,10 +155,11 @@ var FIN_layout = {
     audioplayer : "#audioplayer",
     //2     #audiofile
     audiofile : "#audiofile",
-    // placeholder text for reqtxtinput
+    // placeholder text for reqtxtinput area: "..."
     UI_TXTIN : "...",
-    // pseudo-window state
-    UI_OVERLAY : false
+    // pseudo-window (overlayed) state flag
+    UI_OVERLAY : false,
+    UI_popup : 0
 };
 
 //

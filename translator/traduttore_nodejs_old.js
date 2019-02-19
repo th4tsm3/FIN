@@ -1,6 +1,9 @@
 //
 // # Story Translator for FIN
 //
+// rev. 2019-02-11
+// rev. 2019-02-13
+//
 /*
 
 PART A
@@ -48,6 +51,7 @@ var FIN_translator = {
         // rrr > rem
         'rrr','rem(\\"',
         // eee > end
+		//10
         'eee','end(\\"',
         // ccc > com
         'ccc','com(\\"',
@@ -59,6 +63,7 @@ var FIN_translator = {
         'jjj','raw(\\"',
         // ### html entities and other signs
         // << > laquo;
+		//20
         '<<','&laquo;',
         // >> > raquo;
         '>>','&raquo;',
@@ -69,21 +74,33 @@ var FIN_translator = {
         // --' > mdash;
         '--','&mdash;',
         // ]]' > br>
+		//30
         ']]','<br>',
         // ### verb changers
-        // vrb > 'vr0
+        // vrb0 > vr0
         'vrb0','vr0(\\"',
-        // vrb > 'vr1
+        // vrb1 > vr1
         'vrb1','vr1(\\"',
-        // vrb > 'vr2
+        // vrb2 > vr2
         'vrb2','vr2(\\"',
-        // vrb > 'vr3
-        'vrb3','vr3(\\"'
+        // vrb3 > vr3
+        'vrb3','vr3(\\"',
+        // test instruction: OR (chk identifies check instructions)
+		//40
+        '_OR', 'chk_or_(\\"',
+        // test instruction: AND (chk identifies check instructions)
+        '_AND','chk_and(\\"'
     ],
+    defaultinstruction : 'txs(\\"',
+    // keywords:
     keywords : {
+        // # <- remark
         remark : "#",
-        objstart : "o",
+        // e <- element-start
+        objstart : "e",
+        // x <- element-end
         objend : "x",
+        // ...
         type : "t",
         synonims : "s",
         linkto : "l",
@@ -95,17 +112,39 @@ var FIN_translator = {
         debug : "debug",
         player : "player",
         focus : "focus"
+        // verbs keywords:
+        // 0 <- group 0
+        // 1 <- group 1
+        // 2 <- group 2
+        // 3 <- group 3
     },
     // needed keywords: start, player, focus
     needed : 4
 };
 
 //
+// ## takes out values list from a dictionary
+//
+function take_values(dictionary) {
+    var allvalues = [];
+    for (var key in dictionary){
+        allvalues.push(dictionary[key]);
+    }
+    return allvalues;
+};
+
+//
 // ## message output manager
 //
 function printer(arg) {
-    console.log(arg);
+    console.log(" # FIN translator: "+arg);
 };
+
+// debug printout
+function logger(it){
+    console.log(callerName() +" >> "+it.toString());
+}
+
 
 //
 // ## preliminary information
@@ -155,7 +194,7 @@ function splint1(data){
     for (el in data) {
         countlines+=1;
         if (data[el].toString().trim().toLowerCase()=="x"){
-            tmp3.push("x");
+            tmp3.push( FIN_translator.keywords.objend );
         }
         else {
             tmp1 = data[el].split(/ (.+)/);
@@ -191,7 +230,7 @@ function array_cleanup(obj) {
 function count_objs(data){
     var count=0;
     for (item in data){
-        if (data[item][0]=="o"){
+        if (data[item][0]==FIN_translator.keywords.objstart){
             count+=1;
         }
     }
@@ -231,6 +270,16 @@ function string_filtering(str){
             buildnew+=substituting(app1[bit].trim());
         }
     }
+    // applies default instruction if no valid keyword is present at the beginning of the converted string
+
+//console.log(">",FIN_translator.valid_instructions);
+//console.log(">>", buildnew.substring(0,7)+'(\\"' , FIN_translator.valid_instructions[41] , FIN_translator.valid_instructions[43]);
+//console.log(">>>", buildnew.substring(0,7)+'(\\"' == FIN_translator.valid_instructions[41] );
+
+    if (  (FIN_translator.valid_instructions.indexOf( buildnew.substring(0,3)+'(\\"' ) < 0 ) && buildnew.substring(0,7)+'(\\"' != FIN_translator.valid_instructions[41] && buildnew.substring(0,7)+'(\\"' != FIN_translator.valid_instructions[43]  ) {
+        buildnew = FIN_translator.defaultinstruction+buildnew;
+//console.log(">> TRIGGERED DEFAULT CONV >>");
+    }
     return buildnew;
 }
 
@@ -242,12 +291,16 @@ function parse_line(el, objsc){
     var someproperties=false;
     var firstobject=true;
     for (item in el){
+        //console.log(item, el[item][0]);
         // remark -> ignored
         if (el[item][0]==FIN_translator.keywords.remark){
             continue;
         }
         // preliminary check:
-        if ( !( el[item][0].toLowerCase().trim()== 'l' || el[item][0].toLowerCase().trim()== '3' || el[item][0].toLowerCase().trim()== '2' || el[item][0].toLowerCase().trim()== '1' || el[item][0].toLowerCase().trim()== '0' || el[item][0].toLowerCase().trim()== 'x' || el[item][0].toLowerCase().trim()== 'j' || el[item][0].toLowerCase().trim()== 'o' || el[item][0].toLowerCase().trim()== 't' || el[item][0].toLowerCase().trim()== 's' || el[item][0].toLowerCase().trim()== 'start' || el[item][0].toLowerCase().trim()== 'story' || el[item][0].toLowerCase().trim()== 'debug' || el[item][0].toLowerCase().trim()== 'focus' || el[item][0].toLowerCase().trim()== 'player') || el[item][0].trim()== '#' ){
+        // adding verb groups for the validity check
+        var allvalues = take_values(FIN_translator.keywords);
+        allvalues = allvalues.concat(['0','1','2','3']);
+        if ( allvalues.indexOf( el[item][0].toLowerCase().trim() ) <0 ) {
             // outputs WARNINGS and ERRORS
             printer("WARNING: wrong keyword >> "+el[item][0]+" >> "+el[item][1]);
         }
@@ -270,12 +323,12 @@ function parse_line(el, objsc){
             PRE+='var STORY="'+el[item][1].trim()+'";\n';
             PREDEBUG+='var STORY="'+el[item][1].trim()+'";\n';
             FIN_translator.needed-=1;
-		}
+        }
         else if (el[item][0].toLowerCase().trim()==FIN_translator.keywords.debug){
             // TBD
             //PRE+='var DEBUG='+el[item][1].trim()+';\n';
             PREDEBUG+='var DEBUG='+el[item][1].trim()+';\n';
-		}
+        }
         else if (el[item][0].toLowerCase().trim()==FIN_translator.keywords.player){
             PRE+='var PLAYER="'+el[item][1].trim()+'";\n';
             PREDEBUG+='var PLAYER="'+el[item][1].trim()+'";\n';
@@ -293,7 +346,7 @@ function parse_line(el, objsc){
             // for any object except the first
             if( firstobject==false ){
                 if (objsc>=0){
-				    STREAM+=',';
+                    STREAM+=',';
                 }
             }
             // only for the first object
@@ -336,7 +389,7 @@ function parse_line(el, objsc){
             }
             STREAM+='],';
         }
-        // ### verb 0 / 3
+        // ### verb 0 / 3 (actually translates ANY number)
         else if ( !isNaN(el[item][0]) ){
             if (someproperties==false) {
                 someproperties=true;
@@ -344,7 +397,7 @@ function parse_line(el, objsc){
             STREAM+='"v_'+el[item][0]+'":[';
             var subsequents = el[item][1].split(FIN_translator.keywords.splitseq);
             for (i in subsequents){
-                // storing VERBS
+                // storing VERBS INSTRUCTIONS
                 STREAM+='"'+ string_filtering( subsequents[i].trim() )+'"';
                 if (i<subsequents.length-1){
                     STREAM+=',';
@@ -398,9 +451,9 @@ function parse_line(el, objsc){
     if (STREAM.substr(STREAM.length-2) == ',}'){
         STREAM=STREAM.substr(0,STREAM.length-2)+'}';
     }    
-	STREAM+='}';
-	//return(GENERAL+STREAM);
-	return(STREAM);
+    STREAM+='}';
+    //return(GENERAL+STREAM);
+    return(STREAM);
 }
 
 //
@@ -418,7 +471,7 @@ function basesixtyfour(text){
 
 // ## execute translation
 try {
-    printer("");
+///    printer("");
     contenuti = fs.readFileSync(readSource, "utf8");
     data = whole_splitter(contenuti);
     var out = '{"v_0":{"typ":["verb"],"syn":[],"lnkTo":[],"lnkFr":[],"v_0":[],"v_1":[],"v_2":[],"v_3":[]},"v_1":{"typ":["verb"],"syn":[],"lnkTo":[],"lnkFr":[],"v_0":[],"v_1":[],"v_2":[],"v_3":[]},"v_2":{"typ":["verb"],"syn":[],"lnkTo":[],"lnkFr":[],"v_0":[],"v_1":[],"v_2":[],"v_3":[]},"v_3":{"typ":["verb"],"syn":[],"lnkTo":[],"lnkFr":[],"v_0":[],"v_1":[],"v_2":[],"v_3":[]},'+ parse_line( splint1( data ), count_objs( data ) );
@@ -439,7 +492,7 @@ if (FIN_translator.needed != 0) {
 
     ////printer("WRITING: "+process.argv[3]+"_plaintext");
     fs.writeFileSync(process.argv[3]+"_plaintext", PREDEBUG+'var objectsDefinition='+out, 'utf8');
-    printer("");
+    //printer("");
     printer("WRITTEN: "+process.argv[3]+"_plaintext");
     out = '"'+ basesixtyfour(out) +'";';
     ////console.log( PRE+'objectsDefinition='+out);
@@ -458,11 +511,6 @@ return 0;
 
 /*********************************************************/
 
-
-// debug printout
-function logger(it){
-    console.log(callerName() +" >> "+it.toString());
-}
 
 function callerName() {
     try {
@@ -570,4 +618,5 @@ function isNullOrEmpty(obj) {
     return getStringValue(obj) == "";
 }
 /*********************************************************/
+
 

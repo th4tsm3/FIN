@@ -2,32 +2,27 @@
 // # Story Translator for FIN
 //
 // rev. 2019-02-11
-// rev. 2019-02-13
+// rev. 2019-02-19
 //
-/*
-
-PART A
-
-&&  - and/contempor. > ...
-$$  - subsequently   > ", "
-
-REGOLE:
-nessuno spazio all'inizio riga (confermato?)
-keyword (lettera) [spazio] istruzioni [senza mai "a capo"], usare le entities html per a capo, ecc
-ci deve essere sempre una istruzione in testa alla riga dopo la keyword
-x per terminare la definizione dell'oggetto4
-ordine delle keyword e` importante TBD?
-i verbi devono sempre avere come 1o sinonimo v_1...ecc!
-
-
-codifica base64:
-If you need to convert to Base64 you could do so using Buffer:
-console.log(Buffer.from('Hello World!').toString('base64'));
-Reverse (assuming the content you're decoding is a utf8 string):
-console.log(Buffer.from(b64Encoded, 'base64').toString());
-
-
-*/
+// PART A
+//
+// &&  - and/contempor. > ...
+// $$  - subsequently   > ", "
+//
+// REGOLE:
+// nessuno spazio all'inizio riga (confermato?)
+// keyword (lettera) [spazio] istruzioni [senza mai "a capo"], usare le entities html per a capo, ecc
+// ci deve essere sempre una istruzione in testa alla riga dopo la keyword
+// x per terminare la definizione dell'oggetto4
+// ordine delle keyword e` importante TBD?
+// i verbi devono sempre avere come 1o sinonimo v_1...ecc!
+//
+// codifica base64:
+// If you need to convert to Base64 you could do so using Buffer:
+// console.log(Buffer.from('Hello World!').toString('base64'));
+// Reverse (assuming the content you're decoding is a utf8 string):
+// console.log(Buffer.from(b64Encoded, 'base64').toString());
+//
 
 // keywords: tot = length/2; start: 0 (step+2); last: length-1 
 
@@ -36,7 +31,7 @@ console.log(Buffer.from(b64Encoded, 'base64').toString());
 //
 var FIN_translator = {
     // present version
-    version : 1,
+    version : "1.1",
     valid_instructions : [
 // instructions: sss, ppp, ...
 // add _ before keyword to be translated for permanent evaluation
@@ -51,7 +46,7 @@ var FIN_translator = {
         // rrr > rem
         'rrr','rem(\\"',
         // eee > end
-		//10
+        //10
         'eee','end(\\"',
         // ccc > com
         'ccc','com(\\"',
@@ -63,7 +58,7 @@ var FIN_translator = {
         'jjj','raw(\\"',
         // ### html entities and other signs
         // << > laquo;
-		//20
+        //20
         '<<','&laquo;',
         // >> > raquo;
         '>>','&raquo;',
@@ -74,21 +69,21 @@ var FIN_translator = {
         // --' > mdash;
         '--','&mdash;',
         // ]]' > br>
-		//30
+        //30
         ']]','<br>',
         // ### verb changers
-        // vrb0 > 'vr0
+        // vrb0 > vr0
         'vrb0','vr0(\\"',
-        // vrb1 > 'vr1
+        // vrb1 > vr1
         'vrb1','vr1(\\"',
-        // vrb2 > 'vr2
+        // vrb2 > vr2
         'vrb2','vr2(\\"',
-        // vrb3 > 'vr3
+        // vrb3 > vr3
         'vrb3','vr3(\\"',
-        // test instruction: OR (chk identifies check instructions)
-		//40
+        // test instruction: _OR (chk identifies check instructions)
+        //40
         '_OR', 'chk_or_(\\"',
-        // test instruction: AND (chk identifies check instructions)
+        // test instruction: _AND (chk identifies check instructions)
         '_AND','chk_and(\\"'
     ],
     defaultinstruction : 'txs(\\"',
@@ -119,7 +114,8 @@ var FIN_translator = {
         // 3 <- group 3
     },
     // needed keywords: start, player, focus
-    needed : 4
+    needed : 4,
+    found_end : false
 };
 
 //
@@ -137,8 +133,14 @@ function take_values(dictionary) {
 // ## message output manager
 //
 function printer(arg) {
-    console.log(arg);
+    console.log(" # FIN translator: "+arg);
 };
+
+// debug printout
+function logger(it){
+    console.log(callerName() +" >> "+it.toString());
+}
+
 
 //
 // ## preliminary information
@@ -153,7 +155,7 @@ if (typeof(process.argv[2]) == "undefined" || typeof(process.argv[3]) == "undefi
     printer("Usage: "+process.argv[1]+" SOURCE-FILE DESTINATION-FILE");
     printer("No action");
     // exit: error code (1-general error)
-    return 1;
+    process.exit(1);
 };
 
 //
@@ -187,11 +189,12 @@ function splint1(data){
     // for each element in array...
     for (el in data) {
         countlines+=1;
+//        console.log(countlines,">"+data[el].trim()+"<");
         if (data[el].toString().trim().toLowerCase()=="x"){
             tmp3.push( FIN_translator.keywords.objend );
         }
         else {
-            tmp1 = data[el].split(/ (.+)/);
+            tmp1 = data[el].trim().split(/ (.+)/);
             tmp2 = array_cleanup(tmp1);
             // if there are no more elements it is ignored
             if (el > 0) {
@@ -272,7 +275,7 @@ function string_filtering(str){
 
     if (  (FIN_translator.valid_instructions.indexOf( buildnew.substring(0,3)+'(\\"' ) < 0 ) && buildnew.substring(0,7)+'(\\"' != FIN_translator.valid_instructions[41] && buildnew.substring(0,7)+'(\\"' != FIN_translator.valid_instructions[43]  ) {
         buildnew = FIN_translator.defaultinstruction+buildnew;
-console.log(">> TRIGGERED DEFAULT CONV >>");
+//console.log(">> TRIGGERED DEFAULT CONV >>");
     }
     return buildnew;
 }
@@ -285,7 +288,7 @@ function parse_line(el, objsc){
     var someproperties=false;
     var firstobject=true;
     for (item in el){
-        //console.log(item, el[item][0]);
+//console.log(item,">"+el[item][0].toLowerCase().trim()+"<");
         // remark -> ignored
         if (el[item][0]==FIN_translator.keywords.remark){
             continue;
@@ -295,7 +298,7 @@ function parse_line(el, objsc){
         var allvalues = take_values(FIN_translator.keywords);
         allvalues = allvalues.concat(['0','1','2','3']);
         if ( allvalues.indexOf( el[item][0].toLowerCase().trim() ) <0 ) {
-            // outputs WARNINGS and ERRORS
+            // WARNING: wrong keyword
             printer("WARNING: wrong keyword >> "+el[item][0]+" >> "+el[item][1]);
         }
         if (someproperties && el[item][0].toLowerCase().trim()!=FIN_translator.keywords.objend){
@@ -418,7 +421,8 @@ function parse_line(el, objsc){
             STREAM+=']';
         }
         // ### object end
-        else if (el[item][0].trim().toLowerCase()==FIN_translator.keywords.objend){
+        else if (el[item][0].trim().toLowerCase()== FIN_translator.keywords.objend ){
+            FIN_translator.found_end = true;
             if (someproperties==false) {
                 STREAM+='},';
                 // last object?
@@ -446,7 +450,6 @@ function parse_line(el, objsc){
         STREAM=STREAM.substr(0,STREAM.length-2)+'}';
     }    
     STREAM+='}';
-    //return(GENERAL+STREAM);
     return(STREAM);
 }
 
@@ -459,7 +462,8 @@ function basesixtyfour(text){
         return Buffer( encodeURIComponent(text) ).toString('base64');
     }
     catch(err){
-        printer("ERROR basesixtyfour! ",err);        
+        // ERROR: base64
+        printer("ERROR: base64 encoding! ",err);        
     }
 }
 
@@ -477,16 +481,19 @@ try {
 //
 // ### checks if needed preliminary keywords are present
 //
-if (FIN_translator.needed != 0) {
-    printer("ERROR: Some PRELIMINARY KEYWORDS are missing!");
-    printer("The following are mandatory: "+FIN_translator.keywords.story+", "+FIN_translator.keywords.start+", "+FIN_translator.keywords.player+", "+FIN_translator.keywords.focus);
-    return 1;
-}
-
+    if (FIN_translator.needed != 0) {
+        // ERROR: preliminary keywords missing: story, start, player, focus
+        printer("ERROR: preliminary keywords missing: "+FIN_translator.keywords.story+", "+FIN_translator.keywords.start+", "+FIN_translator.keywords.player+", "+FIN_translator.keywords.focus);
+        process.exit(1);
+    }
+    if (! FIN_translator.found_end) {
+        // WARNING: "end" instruction not found.
+        printer('WARNING: "end" instruction not found.');
+    }
 
     ////printer("WRITING: "+process.argv[3]+"_plaintext");
     fs.writeFileSync(process.argv[3]+"_plaintext", PREDEBUG+'var objectsDefinition='+out, 'utf8');
-    printer("");
+    //printer("");
     printer("WRITTEN: "+process.argv[3]+"_plaintext");
     out = '"'+ basesixtyfour(out) +'";';
     ////console.log( PRE+'objectsDefinition='+out);
@@ -496,20 +503,16 @@ if (FIN_translator.needed != 0) {
     ////printer("\n"+PREDEBUG);
 }
 catch (err){
+    // ERROR: output issue
     printer("OUTPUT ERROR! ",err);
-    return 1;
+    process.exit(1);
 }
 
 // process successfully completed
-return 0;
+process.exit(0);
 
 /*********************************************************/
 
-
-// debug printout
-function logger(it){
-    console.log(callerName() +" >> "+it.toString());
-}
 
 function callerName() {
     try {

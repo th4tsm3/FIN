@@ -61,7 +61,7 @@ var FIN_localization = {
     },
     //
     // ## strings for the UI commuters
-	//
+    //
     UI_STR : {
         clock : "orologio",
         clockno : "orologio non visibile",
@@ -72,7 +72,7 @@ var FIN_localization = {
         playerno : "player non visibile",
         fullscreen : "schermo pieno / in finestra"
     },
-	//
+    //
     // ## grammar: unuseful particles
     //
     UNUSEFUL : [
@@ -90,8 +90,11 @@ var FIN_localization = {
         "sull'",
         "col","coi","cogli","colle","coll'"
         // TBD: "altri","altro","altre"
-	],
-
+    ],
+    //
+    // ## sentence separator
+    //
+    SENTENCE_SEPARATOR : "e",
     //
     // ## overlaywin tabs
     //

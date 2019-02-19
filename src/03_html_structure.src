@@ -3,7 +3,7 @@
 <body class="font_adj styledef">
   <div id="main_div" class="container ">
     <div id="outputarea" class="container">
-      <div id="previously">&nbsp;</div>
+      <div id="previously"><br></div>
       <div id="placeholder"></div>
       <div id="separator"></div>
       <div id="upto"></div><!-- marker - output-end -->
